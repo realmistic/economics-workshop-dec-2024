@@ -1,7 +1,5 @@
-# # Economic Data Visualization
+# Economic Data Visualization
 # This script visualizes various economic indicators using Plotly.
-# 
-# **Important**: Before running this script, make sure to run `data_retrieval.py` first to generate the required data files.
 
 #%%
 # Import required libraries
@@ -10,57 +8,48 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 from pathlib import Path
+from sqlalchemy import create_engine
+import os
 
 #%%
-# Check if data files exist
-data_dir = Path('../data')  # Changed from '../data' to 'data'
-required_files = [
-    'unrate.parquet',
-    'cpilfesl.parquet',
-    'cpiaucsl.parquet',
-    'ireland_cpi.parquet',
-    'euro_cpi.parquet',
-    'gdpc1.parquet',
-    'gdppot.parquet',
-    'fedfunds.parquet',
-    'gfdegdq188s.parquet',
-    'dgs1.parquet',
-    'dgs5.parquet',
-    'dgs10.parquet',
-    'dtwexbgs.parquet',
-    'dexuseu.parquet',
-    'vixcls.parquet',
-    'sp500.parquet'
-]
+# Setup database connection : 
+# [Comment] Ivan: YOU CAN RUN IT INTERACTIVE FROM THIS WINDOW, or by calling "python interactive_notebooks/data_visualization.py" from the top project folder 
+def get_db_path():
+    """Get the database path whether running as script or interactively"""
+    current_file = Path(__file__).resolve() if '__file__' in globals() else Path.cwd()
+    if current_file.is_file():
+        # Running as script
+        return current_file.parent.parent / 'data' / 'economics_data.db'
+    else:
+        # Running interactively
+        return current_file.parent / 'data' / 'economics_data.db'
 
-missing_files = [f for f in required_files if not (data_dir / f).exists()]
-
-if missing_files:
-    print("Error: Missing required data files!")
-    print("Please run data_retrieval.py first to generate the following files:")
-    for file in missing_files:
-        print(f"- {file}")
-    print("\nRun this command in the terminal:")
-    print("python scripts/data_retrieval.py")
+db_path = get_db_path()
+if not db_path.exists():
+    print("Error: Database file not found!")
+    print(f"Expected location: {db_path}")
 else:
-    # Load all economic data from parquet files
-    print("Loading data files...")
-    unemployment = pd.read_parquet(data_dir / 'unrate.parquet')
-    cpi_core = pd.read_parquet(data_dir / 'cpilfesl.parquet')
-    cpi_all = pd.read_parquet(data_dir / 'cpiaucsl.parquet')
-    ireland_cpi = pd.read_parquet(data_dir / 'ireland_cpi.parquet')
-    euro_cpi = pd.read_parquet(data_dir / 'euro_cpi.parquet')
-    gdpc1 = pd.read_parquet(data_dir / 'gdpc1.parquet')
-    gdppot = pd.read_parquet(data_dir / 'gdppot.parquet')
-    fedfunds = pd.read_parquet(data_dir / 'fedfunds.parquet')
-    debt_to_gdp = pd.read_parquet(data_dir / 'gfdegdq188s.parquet')
-    dgs1 = pd.read_parquet(data_dir / 'dgs1.parquet')
-    dgs5 = pd.read_parquet(data_dir / 'dgs5.parquet')
-    dgs10 = pd.read_parquet(data_dir / 'dgs10.parquet')
-    dollar_index = pd.read_parquet(data_dir / 'dtwexbgs.parquet')
-    eurusd = pd.read_parquet(data_dir / 'dexuseu.parquet')
-    vix = pd.read_parquet(data_dir / 'vixcls.parquet')
-    sp500 = pd.read_parquet(data_dir / 'sp500.parquet')
+    # Create database connection
+    engine = create_engine(f'sqlite:///{db_path}')
+    
+    # Load all economic data from database
+    print("Loading data from database...")
+    unemployment = pd.read_sql('SELECT * FROM unrate', engine, parse_dates=['date']).set_index('date')
+    cpi_core = pd.read_sql('SELECT * FROM cpilfesl', engine, parse_dates=['date']).set_index('date')
+    cpi_all = pd.read_sql('SELECT * FROM cpiaucsl', engine, parse_dates=['date']).set_index('date')
+    ireland_cpi = pd.read_sql('SELECT * FROM ireland_cpi', engine, parse_dates=['date']).set_index('date')
+    euro_cpi = pd.read_sql('SELECT * FROM euro_cpi', engine, parse_dates=['date']).set_index('date')
+    gdpc1 = pd.read_sql('SELECT * FROM gdpc1', engine, parse_dates=['date']).set_index('date')
+    gdppot = pd.read_sql('SELECT * FROM gdppot', engine, parse_dates=['date']).set_index('date')
+    fedfunds = pd.read_sql('SELECT * FROM fedfunds', engine, parse_dates=['date']).set_index('date')
+    debt_to_gdp = pd.read_sql('SELECT * FROM gfdegdq188s', engine, parse_dates=['date']).set_index('date')
+    dgs1 = pd.read_sql('SELECT * FROM dgs1', engine, parse_dates=['date']).set_index('date')
+    dgs5 = pd.read_sql('SELECT * FROM dgs5', engine, parse_dates=['date']).set_index('date')
+    dgs10 = pd.read_sql('SELECT * FROM dgs10', engine, parse_dates=['date']).set_index('date')
+    dollar_index = pd.read_sql('SELECT * FROM dtwexbgs', engine, parse_dates=['date']).set_index('date')
+    eurusd = pd.read_sql('SELECT * FROM dexuseu', engine, parse_dates=['date']).set_index('date')
+    vix = pd.read_sql('SELECT * FROM vixcls', engine, parse_dates=['date']).set_index('date')
+    sp500 = pd.read_sql('SELECT * FROM sp500', engine, parse_dates=['date']).set_index('date')
     print("Data loading completed!")
 
     #%% [markdown]
