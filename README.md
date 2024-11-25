@@ -2,6 +2,42 @@
 
 A comprehensive economic data dashboard that combines data from multiple sources (Yahoo Finance, FRED, and cryptocurrency data) into a Streamlit application with automated data collection and visualization.
 
+## Introduction
+
+Hi, I'm **Ivan Brigida**, an Analyst at Google with a background in **Economics** and **Data Analysis**. Before joining Google, I worked in the banking sector, and 3 years ago, I started investing in **U.S. markets** while living in **Ireland**. My work and investing experience focus on using **economic data** to understand the economy, make financial decisions, and develop market strategies.
+
+Last year, I ran the **Stock Markets Analysis Zoomcamp**, which attracted **1,800+ registrations**. I’ll be running it again in **2025** to introduce participants to economic data with reduced technical complexity.
+
+---
+
+### My Skills and Motivation
+
+I’m skilled in:
+- Writing **SQL code** for analysis and workflows.
+- Building **graphs** and conducting data-driven analysis.
+- Creating **basic trading strategies**, though they can get complex.
+
+However, I want to avoid the overhead of tasks like:
+- Managing **data pipelines** and **databases**.
+- Ensuring **data integrity**.
+- Coding **dashboards**, debugging **JavaScript**, or dealing with **CSS styles**.
+- Handling **containerization** and deployment.
+
+AI tools have helped me bridge these gaps, saving time and energy (at <$20/month). I’m focusing on what I do best while letting technology handle the rest.
+
+---
+
+### The Grand Idea 💡
+
+This repository is a step toward a **generic Data Science project template** with solid foundational layers:
+1. **Data storage** and **automated updates** for reliable, scalable data handling.
+2. **Dashboards** for visualization and monitoring.
+3. **Containers** for streamlined deployment.
+
+With these pieces in place, the real focus can shift to **predictions**, **machine learning**, and advanced strategy development—what really matters for understanding markets and making decisions.
+
+Explore the **TODOs** in the code and contribute your ideas to bring this vision to life!
+
 ## Features
 - Real-time cryptocurrency data collection
 - Daily economic indicators updates
