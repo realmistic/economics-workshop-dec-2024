@@ -143,11 +143,8 @@ def fetch_macro(min_date=None):
     # Save to parquet and SQLite
     print("\nSaving data to files...")
     for name, df in tqdm(data.items(), desc="Saving data"):
-        
-        # Skip saving to parquet
-        # df.to_parquet(os.path.join(DATA_DIR, f'{name}.parquet'))
-        
-        # Save to SQLite
+        # Save to SQLite with index preserved and named as 'date'
+        df.index.name = 'date'  # Explicitly name the index
         df.to_sql(name, engine, if_exists='replace')
 
 def main():
