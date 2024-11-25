@@ -1,0 +1,14 @@
+numpy
+requests
+sqlalchemy
+plotly
+jupyter
+ipykernel
+pyarrow
+streamlit==1.29.0
+pandas==2.1.4
+plotly==5.18.0
+sqlite3-api==2.0.1
+yfinance>=0.2.31
+pandas_datareader>=0.10.0
+tqdm>=4.66.1
