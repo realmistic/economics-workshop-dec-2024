@@ -6,13 +6,13 @@ A comprehensive economic data dashboard that combines data from multiple sources
 
 Hi, I'm **Ivan Brigida**, an Analyst at Google with a background in **Economics** and **Data Analysis**. Before joining Google, I worked in the banking sector, and 3 years ago, I started investing in **U.S. markets** while living in **Ireland**. My work and investing experience focus on using **economic data** to understand the economy, make financial decisions, and develop market strategies.
 
-Last year, I ran the **Stock Markets Analysis Zoomcamp**, which attracted **1,800+ registrations**. I’ll be running it again in **2025** to introduce participants to economic data with reduced technical complexity.
+Last year, I ran the **Stock Markets Analysis Zoomcamp**, which attracted **1,800+ registrations**. I'll be running it again in **2025** to introduce participants to economic data with reduced technical complexity.
 
 ---
 
 ### My Skills and Motivation
 
-I’m skilled in:
+I'm skilled in:
 - Writing **SQL code** for analysis and workflows.
 - Building **graphs** and conducting data-driven analysis.
 - Creating **basic trading strategies**, though they can get complex.
@@ -23,7 +23,7 @@ However, I want to avoid the overhead of tasks like:
 - Coding **dashboards**, debugging **JavaScript**, or dealing with **CSS styles**.
 - Handling **containerization** and deployment.
 
-AI tools have helped me bridge these gaps, saving time and energy (at <$20/month). I’m focusing on what I do best while letting technology handle the rest.
+AI tools have helped me bridge these gaps, saving time and energy (at <$20/month). I'm focusing on what I do best while letting technology handle the rest.
 
 ---
 
@@ -58,14 +58,22 @@ For detailed instructions on how to reproduce this project from scratch using AI
 #### Option 1: With Persistent Data (Volume Mounting)
 Use this option to persist data between container restarts:
 ```bash
+# Run this before, if you want to rebuild the container that is currently running:
+docker stop finance_test && docker rm finance_test
+
+# Then run the container:
 docker build -t data_app .
 docker run -d --name finance_test -p 8501:8501 -v $(pwd)/data:/app/data data_app
 ```
 This will use existing data if available, or create new data if the directory is empty.
 
 #### Option 2: Without Volume Mounting
-Use this option for a fresh start or testing:
+Use this option for a fresh start or testing (e.g., when developing a new version):
 ```bash
+# Run this before, if you want to rebuild the container that is currently running:
+docker stop finance_test && docker rm finance_test
+
+# Then run the container:
 docker build -t data_app .
 docker run -d --name finance_test -p 8501:8501 data_app
 ```
