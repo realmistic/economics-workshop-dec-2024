@@ -20,29 +20,46 @@ if 'current_view' not in st.session_state:
 
 # Database connection function
 def get_database_connection():
-    return sqlite3.connect('data/economics_data.db')
+    db_path = 'data/economics_data.db'
+    if not os.path.exists(db_path):
+        st.error(f"Database file not found at {db_path}")
+        raise FileNotFoundError(f"Database file not found at {db_path}")
+    return sqlite3.connect(db_path)
 
 @st.cache_data(ttl=24*3600)  # Cache for 24 hours
 def load_data(query):
-    conn = get_database_connection()
-    df = pd.read_sql_query(query, conn)
-    conn.close()
-    df['DATE'] = pd.to_datetime(df['DATE'])
-    df.set_index('DATE', inplace=True)
-    return df
+    try:
+        conn = get_database_connection()
+        df = pd.read_sql_query(query, conn)
+        conn.close()
+        
+        if 'date' not in df.columns:
+            st.error(f"date column not found in query result. Available columns: {df.columns.tolist()}")
+            raise KeyError("date column not found in query result")
+            
+        df['date'] = pd.to_datetime(df['date'])
+        df.set_index('date', inplace=True)
+        return df
+    except Exception as e:
+        st.error(f"Error loading data: {str(e)}")
+        raise e
 
 def load_btc_data():
-    conn = get_database_connection()
-    query = """
-    SELECT Datetime, Open, High, Low, Close, Volume
-    FROM btc_minute
-    ORDER BY Datetime DESC
-    LIMIT 300
-    """
-    df = pd.read_sql_query(query, conn)
-    conn.close()
-    df['Datetime'] = pd.to_datetime(df['Datetime'])
-    return df
+    try:
+        conn = get_database_connection()
+        query = """
+        SELECT Datetime, Open, High, Low, Close, Volume
+        FROM btc_minute
+        ORDER BY Datetime DESC
+        LIMIT 300
+        """
+        df = pd.read_sql_query(query, conn)
+        conn.close()
+        df['Datetime'] = pd.to_datetime(df['Datetime'])
+        return df
+    except Exception as e:
+        st.error(f"Error loading BTC data: {str(e)}")
+        raise e
 
 def get_file_update_time(filepath):
     try:
@@ -210,7 +227,7 @@ elif st.session_state.current_view == 'Market Overview':
         sp500_query = """
         SELECT *
         FROM sp500
-        ORDER BY DATE
+        ORDER BY date
         """
         sp500 = load_data(sp500_query)
         
@@ -234,7 +251,7 @@ elif st.session_state.current_view == 'Market Overview':
         vix_query = """
         SELECT *
         FROM vixcls
-        ORDER BY DATE
+        ORDER BY date
         """
         vix = load_data(vix_query)
         
@@ -263,7 +280,7 @@ elif st.session_state.current_view == 'Economic Indicators':
         unemployment_query = """
         SELECT *
         FROM unrate
-        ORDER BY DATE
+        ORDER BY date
         """
         unemployment = load_data(unemployment_query)
         
@@ -274,16 +291,23 @@ elif st.session_state.current_view == 'Economic Indicators':
         fig_unemployment.update_layout(get_chart_layout('U.S. Unemployment Rate'))
         st.plotly_chart(fig_unemployment, use_container_width=True)
         
+        # Add unemployment rate bullet points
+        st.markdown("""
+        * **Importance**: The U.S. unemployment rate is a vital economic indicator, reflecting labor market health and overall economic performance. It helps shape policies for sustainable growth.
+        * **Recent Trend**: Following a sharp spike around 2020 (due to the COVID-19 pandemic), unemployment has declined significantly, stabilizing near historical lows, showcasing labor market resilience.
+        * **Role of the Central Bank**: The Federal Reserve aims to maintain maximum employment as part of its dual mandate. By adjusting interest rates and using monetary policy tools, it strives to balance low unemployment with price stability, ensuring sustainable economic growth.
+        """)
+        
         # CPI Data
         cpi_core_query = """
         SELECT *
         FROM cpilfesl
-        ORDER BY DATE
+        ORDER BY date
         """
         cpi_all_query = """
         SELECT *
         FROM cpiaucsl
-        ORDER BY DATE
+        ORDER BY date
         """
         cpi_core = load_data(cpi_core_query)
         cpi_all = load_data(cpi_all_query)
@@ -308,17 +332,17 @@ elif st.session_state.current_view == 'Interest Rates':
         yields_1y_query = """
         SELECT *
         FROM dgs1
-        ORDER BY DATE
+        ORDER BY date
         """
         yields_5y_query = """
         SELECT *
         FROM dgs5
-        ORDER BY DATE
+        ORDER BY date
         """
         yields_10y_query = """
         SELECT *
         FROM dgs10
-        ORDER BY DATE
+        ORDER BY date
         """
         yields_1y = load_data(yields_1y_query)
         yields_5y = load_data(yields_5y_query)
@@ -341,7 +365,7 @@ elif st.session_state.current_view == 'Interest Rates':
         fedfunds_query = """
         SELECT *
         FROM fedfunds
-        ORDER BY DATE
+        ORDER BY date
         """
         fedfunds = load_data(fedfunds_query)
         
@@ -362,7 +386,7 @@ elif st.session_state.current_view == 'Currency Markets':
         dollar_query = """
         SELECT *
         FROM dtwexbgs
-        ORDER BY DATE
+        ORDER BY date
         """
         dollar_index = load_data(dollar_query)
         
@@ -377,7 +401,7 @@ elif st.session_state.current_view == 'Currency Markets':
         eurusd_query = """
         SELECT *
         FROM dexuseu
-        ORDER BY DATE
+        ORDER BY date
         """
         eurusd = load_data(eurusd_query)
         
