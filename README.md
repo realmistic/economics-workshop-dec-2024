@@ -1,4 +1,5 @@
 # Economic Data Dashboard
+**🚀 Try the live dashboard: [Economics Dashboard on Streamlit Cloud](https://economics-workshop-dec-2024.streamlit.app/)**
 
 A comprehensive economic data dashboard that combines data from multiple sources (Yahoo Finance, FRED, and cryptocurrency data) into a Streamlit application with automated data collection and visualization.
 
@@ -7,6 +8,12 @@ A comprehensive economic data dashboard that combines data from multiple sources
 Hi, I'm **Ivan Brigida**, an Analyst at Google with a background in **Economics** and **Data Analysis**. Before joining Google, I worked in the banking sector, and 3 years ago, I started investing in **U.S. markets** while living in **Ireland**. My work and investing experience focus on using **economic data** to understand the economy, make financial decisions, and develop market strategies.
 
 Last year, I ran the **Stock Markets Analysis Zoomcamp**, which attracted **1,800+ registrations**. I'll be running it again in **2025** to introduce participants to economic data with reduced technical complexity.
+
+<p align="center">
+  <a href="https://pythoninvest.com/course"><img src="https://user-images.githubusercontent.com/875246/185755203-17945fd1-6b64-46f2-8377-1011dcb1a444.png" height="50" /></a>
+</p>
+
+
 
 ---
 
