@@ -13,8 +13,6 @@ Last year, I ran the **Stock Markets Analysis Zoomcamp**, which attracted **1,80
   <a href="https://pythoninvest.com/course"><img src="https://user-images.githubusercontent.com/875246/185755203-17945fd1-6b64-46f2-8377-1011dcb1a444.png" height="50" /></a>
 </p>
 
-
-
 ---
 
 ### My Skills and Motivation
@@ -54,6 +52,32 @@ Explore the **TODOs** in the code and contribute your ideas to bring this vision
 - Automated data collection via cron jobs
 - SQLite database for data storage
 - Health monitoring and logging
+
+## Project Structure
+```
+.
+├── app.py                      # Streamlit application
+├── utils.py                    # Shared utilities (DB, data loading, chart styling)
+├── data/                       # Data directory
+│   └── economics_data.db       # SQLite database
+├── Dockerfile                  # Container configuration
+├── requirements.txt            # Python dependencies
+├── scripts/
+│   ├── btc_minute_data.py     # Cryptocurrency data collection
+│   ├── daily_job.sh           # Daily collection script
+│   ├── fred_data_retrieval.py # Economic data collection
+│   └── minute_job.sh          # Minute collection script
+├── pages/                      # Dashboard pages
+│   ├── economic_indicators.py  # Economic indicators page
+│   ├── stock_market.py        # Stock market analysis
+│   ├── interest_rates.py      # Interest rates page
+│   ├── currency_markets.py    # Currency markets page
+│   └── crypto_markets.py      # Cryptocurrency markets page
+├── static/
+│   └── css/
+│       └── style.css          # Application styling
+└── README.md                  # Project documentation
+```
 
 ## Project Reproduction
 For detailed instructions on how to reproduce this project from scratch using AI-assisted development, see [REPRODUCTION.md](REPRODUCTION.md).
