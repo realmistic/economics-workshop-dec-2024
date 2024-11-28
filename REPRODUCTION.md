@@ -1,49 +1,6 @@
 # Economic Data Dashboard - Reproduction Guide
 
-This document provides step-by-step instructions for reproducing this project using AI-assisted development.
-
-## Introduction
-
-Hi, I'm **Ivan Brigida**, an Analyst at Google with a background in **Economics** and **Data Analysis**. 
-Before joining Google, I worked in the banking sector, and 3 years ago, I started investing in **U.S. markets** while living in **Ireland**. 
-My work and investing experience focus on using **economic data** to understand the economy, 
-make financial decisions, and develop market strategies.
-
-Last year, I ran the **Stock Markets Analysis Zoomcamp**, 
-which attracted **1,800+ registrations**. 
-I’ll be running it again in **2025** to introduce participants to economic data with 
-reduced technical complexity.
-
----
-
-### My Skills and Motivation
-
-I’m skilled in:
-- Writing **SQL code** for analysis and workflows.
-- Building **graphs** and conducting data-driven analysis.
-- Creating **basic trading strategies**, though they can get complex.
-
-However, I want to avoid the overhead of tasks like:
-- Managing **data pipelines** and **databases**.
-- Ensuring **data integrity**.
-- Coding **dashboards**, debugging **JavaScript**, or dealing with **CSS styles**.
-- Handling **containerization** and deployment.
-
-AI tools have helped me bridge these gaps, saving time and energy (at <$30/month). 
-I’m focusing on what I do best while letting technology handle the rest.
-
----
-
-### The Grand Idea 💡
-
-This repository is a step toward a **generic Data Science project template** with solid foundational layers:
-1. **Data storage** and **automated updates** for reliable, scalable data handling.
-2. **Dashboards** for visualization and monitoring.
-3. **Containers** for streamlined deployment.
-
-With these pieces in place, the real focus can shift to **predictions**, **machine learning**, 
-and advanced strategy development—what really matters for understanding markets and making decisions.
-
+This document provides step-by-step instructions for reproducing this project using AI-assisted development. For project overview, features, and deployment instructions, see [README.md](README.md).
 
 ## Steps to Reproduce via AI-Assisted Development
 
@@ -52,17 +9,32 @@ Start with the manual Jupyter notebook that reads data from Yahoo Finance and FR
 ```
 "I need to convert the manual_start.ipynb notebook into a Python script. The notebook contains code to fetch S&P 500 data from Yahoo Finance and economic data from FRED."
 ```
+Output:
+```
+notebooks/
+└── manual_start.ipynb
+```
 
 ### 2. Create FRED Data Retrieval Script
 Move to a dedicated Python script and expand the metrics:
 ```
 "Create a script fred_data_retrieval.py that fetches the following metrics from FRED in this order: UNRATE, CPILFESL, CPIAUCSL, CP0000IEM086NEST, CP0000EZ19M086NEST, GDPC1, GDPPOT, FEDFUNDS, GFDEGDQ188S, DGS1, DGS5, DGS10, DTWEXBGS, DEXUSEU, VIXCLS. Include proper error handling and data transformations."
 ```
+Output:
+```
+scripts/
+└── fred_data_retrieval.py
+```
 
 ### 3. Create Data Visualization Module
 Separate data loading from visualization:
 ```
 "Create a data_visualization.py module that handles the visualization of our economic data. It should create interactive plots using Plotly for all our metrics, with proper styling and layout."
+```
+Output:
+```
+interactive_notebooks/
+└── data_visualization.py
 ```
 
 ### 4. Develop Streamlit Application
@@ -75,6 +47,13 @@ Create the web application:
 4. Be styled professionally
 5. Be containerization-ready"
 ```
+Output:
+```
+app.py
+utils.py
+data/
+└── economics_data.db
+```
 
 ### 5. Add Cryptocurrency Data Collection
 Implement BTC-USD minute data collection:
@@ -85,6 +64,12 @@ Implement BTC-USD minute data collection:
 3. Handle incremental updates
 4. Include proper error handling and logging"
 ```
+Output:
+```
+scripts/
+├── fred_data_retrieval.py
+└── btc_minute_data.py
+```
 
 ### 6. Setup Local Development Environment
 Create local development scripts:
@@ -93,6 +78,14 @@ Create local development scripts:
 1. minute_job.sh for cryptocurrency minute data
 2. daily_job.sh for economic indicators
 Both should handle logging and error reporting."
+```
+Output:
+```
+scripts/
+├── fred_data_retrieval.py
+├── btc_minute_data.py
+├── daily_job.sh
+└── minute_job.sh
 ```
 
 ### 7. Containerization
@@ -106,6 +99,11 @@ Package the application:
 5. Includes health checks
 6. Handles logging"
 ```
+Output:
+```
+Dockerfile
+requirements.txt
+```
 
 ### 8. Container Deployment and Testing
 Build and run the container:
@@ -117,56 +115,39 @@ Build and run the container:
 4. Verify data collection jobs
 5. Test the web interface"
 ```
-
-## Running the Application
-
-### Local Development
-1. Install dependencies:
-```bash
-pip install -r requirements.txt
+Output:
+```
+.gitignore
 ```
 
-2. Run data collection scripts:
-```bash
-./scripts/daily_job.sh  # Collect daily economic data
-./scripts/minute_job.sh  # Start minute data collection
+### 9. Application Structure and Styling Improvements
+Organize the application structure and enhance styling:
+```
+"Let's improve the application organization and styling:
+1. Create a 'pages' directory to separate different dashboard sections
+2. Move CSS to a dedicated file in 'static/css/style.css'
+3. Implement pagination for data tables
+4. Create separate modules for economic indicators, stock market, interest rates, currency markets, and crypto markets"
+```
+Output:
+```
+pages/
+├── __init__.py
+├── economic_indicators.py
+├── stock_market.py
+├── interest_rates.py
+├── currency_markets.py
+└── crypto_markets.py
+static/
+└── css/
+    └── style.css
 ```
 
-3. Launch Streamlit app:
-```bash
-streamlit run app.py
-```
-
-### Docker Deployment
-1. Build the container:
-```bash
-docker build -t data_app .
-```
-
-2. Run the container:
-```bash
-docker run -d \
-  --name finance_test \
-  -p 8501:8501 \
-  -v $(pwd)/data:/app/data \
-  data_app
-```
-
-3. Monitor logs:
-```bash
-docker logs finance_test
-```
-
-4. Check data collection:
-```bash
-docker exec finance_test sqlite3 /app/data/economics_data.db \
-  "SELECT COUNT(*) FROM btc_minute;"
-```
-
-## Project Structure
+## Final Project Structure
 ```
 .
 ├── app.py                      # Streamlit application
+├── utils.py                    # Shared utilities (DB, data loading, chart styling)
 ├── data/                       # Data directory
 │   └── economics_data.db       # SQLite database
 ├── Dockerfile                  # Container configuration
@@ -176,21 +157,13 @@ docker exec finance_test sqlite3 /app/data/economics_data.db \
 │   ├── daily_job.sh           # Daily collection script
 │   ├── fred_data_retrieval.py # Economic data collection
 │   └── minute_job.sh          # Minute collection script
+├── pages/                      # Dashboard pages
+│   ├── economic_indicators.py  # Economic indicators page
+│   ├── stock_market.py        # Stock market analysis
+│   ├── interest_rates.py      # Interest rates page
+│   ├── currency_markets.py    # Currency markets page
+│   └── crypto_markets.py      # Cryptocurrency markets page
+├── static/
+│   └── css/
+│       └── style.css          # Application styling
 └── README.md                  # Project documentation
-```
-
-## Key Features
-- Real-time cryptocurrency data collection
-- Daily economic indicators updates
-- Interactive visualizations
-- Professional dark theme UI
-- Containerized deployment
-- Automated data collection via cron jobs
-- SQLite database for data storage
-- Health monitoring and logging
-
-## Notes
-- The application uses SQLite for simplicity, but can be adapted for other databases
-- Data collection jobs run on different schedules (minute vs. daily)
-- The container includes health checks and proper logging
-- Volume mounting ensures data persistence across container restarts
