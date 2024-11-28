@@ -34,7 +34,7 @@ However, I want to avoid the overhead of tasks like:
 - Coding **dashboards**, debugging **JavaScript**, or dealing with **CSS styles**.
 - Handling **containerization** and deployment.
 
-AI tools have helped me bridge these gaps, saving time and energy (at <$20/month). I'm focusing on what I do best while letting technology handle the rest.
+AI tools have helped me bridge these gaps, saving time and energy (at <$30/month). I'm focusing on what I do best while letting technology handle the rest.
 
 ---
 
@@ -46,8 +46,6 @@ This repository is a step toward a **generic Data Science project template** wit
 3. **Containers** for streamlined deployment.
 
 With these pieces in place, the real focus can shift to **predictions**, **machine learning**, and advanced strategy development—what really matters for understanding markets and making decisions.
-
-Explore the **TODOs** in the code and contribute your ideas to bring this vision to life!
 
 ## Features
 - Real-time cryptocurrency data collection
