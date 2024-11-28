@@ -11,9 +11,9 @@ A comprehensive economic data dashboard that combines data from multiple sources
 
 ## Introduction
 
-Hi, I'm **Ivan Brigida**, an Analyst at Google with a background in **Economics** and **Data Analysis**. Before joining Google, I worked in the banking sector, and 3 years ago, I started investing in **U.S. markets** while living in **Ireland**. My work and investing experience focus on using **economic data** to understand the economy, make financial decisions, and develop market strategies.
+Hi, I'm **Ivan Brigida**, an Analyst at Google with a background in **Economics** and **Data Analysis**. Before joining Google, I worked in the banking sector, and 3 years ago, I started investing in **U.S. markets** while living in **Ireland**. My work and investing experience focus on using **economic data** to understand the economy, make financial decisions, and develop market strategies. You can read more about my approach in my [blog post about macro indicators affecting the stock market](https://pythoninvest.com/long-read/macro-indicators-affecting-stock-market).
 
-Last year, I ran the **Stock Markets Analysis Zoomcamp**, which attracted **1,800+ registrations**. I'll be running it again in **2025** to introduce participants to economic data with reduced technical complexity.
+Last year, I ran the **[Stock Markets Analysis Zoomcamp](https://pythoninvest.com/course)**, which attracted **1,800+ registrations**. I'll be running it again in **2025** to introduce participants to economic data with reduced technical complexity.
 
 <p align="center">
   <a href="https://pythoninvest.com/course"><img src="https://user-images.githubusercontent.com/875246/185755203-17945fd1-6b64-46f2-8377-1011dcb1a444.png" height="50" /></a>
@@ -34,7 +34,7 @@ However, I want to avoid the overhead of tasks like:
 - Coding **dashboards**, debugging **JavaScript**, or dealing with **CSS styles**.
 - Handling **containerization** and deployment.
 
-AI tools have helped me bridge these gaps, saving time and energy (at <$30/month). I'm focusing on what I do best while letting technology handle the rest.
+AI tools have helped me bridge these gaps, saving time and energy (at <$20/month). I'm focusing on what I do best while letting technology handle the rest.
 
 ---
 
@@ -46,6 +46,8 @@ This repository is a step toward a **generic Data Science project template** wit
 3. **Containers** for streamlined deployment.
 
 With these pieces in place, the real focus can shift to **predictions**, **machine learning**, and advanced strategy development—what really matters for understanding markets and making decisions.
+
+Explore the **TODOs** in the code and contribute your ideas to bring this vision to life!
 
 ## Features
 - Real-time cryptocurrency data collection
