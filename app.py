@@ -194,7 +194,7 @@ def get_chart_layout(title):
 with st.sidebar:
     st.markdown('<p class="sidebar-title">Navigation</p>', unsafe_allow_html=True)
     for view in ['Economic Indicators', 'Stock Market Overview', 'Interest Rates', 
-                'Currency Markets', 'Crypto Markets', 'Data Status']:
+                'Currency Markets', 'Crypto Markets']:    # (removed), 'Data Status']:                
         if st.button(view, key=view, help=f"View {view}", use_container_width=True):
             st.session_state.current_view = view
 
@@ -547,19 +547,19 @@ elif st.session_state.current_view == 'Crypto Markets':
     except Exception as e:
         st.error(f"Error in Crypto Markets: {str(e)}")
 
-elif st.session_state.current_view == 'Data Status':
-    st.header('Data Update Status')
+# elif st.session_state.current_view == 'Data Status':
+#     st.header('Data Update Status')
     
-    col1, col2 = st.columns(2)
+#     col1, col2 = st.columns(2)
     
-    with col1:
-        st.subheader('Last Update Times')
-        st.text(f"S&P 500 Minute Data: {get_file_update_time('data/sp500_minute.parquet')}")
-        st.text(f"BTC Minute Data: {get_file_update_time('data/btc_minute.db')}")
-        st.text(f"Economic Data: {get_file_update_time('data/economics_data.db')}")
+#     with col1:
+#         st.subheader('Last Update Times')
+#         st.text(f"S&P 500 Minute Data: {get_file_update_time('data/sp500_minute.parquet')}")
+#         st.text(f"BTC Minute Data: {get_file_update_time('data/btc_minute.db')}")
+#         st.text(f"Economic Data: {get_file_update_time('data/economics_data.db')}")
     
-    with col2:
-        st.subheader('Recent Data Collection Logs')
-        logs = get_recent_logs()
-        for log in logs:
-            st.text(log.strip())
+#     with col2:
+#         st.subheader('Recent Data Collection Logs')
+#         logs = get_recent_logs()
+#         for log in logs:
+#             st.text(log.strip())
