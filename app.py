@@ -136,12 +136,21 @@ st.markdown("""
     h1, h2, h3 {
         color: #00FFF0 !important;
     }
-    
-    /* Text elements */
-    .stText {
-        color: #c6cad2 !important;
+
+    /* Markdown text */
+    .element-container div.stMarkdown {
+        color: #ffffff !important;
     }
 
+    /* Markdown text */
+    .element-container div.stMarkdown p {
+        color: #ffffff !important;
+    }
+
+    .element-container div.stMarkdown li {
+        color: #ffffff !important;
+    }
+            
     /* Plotly hover style override */
     .js-plotly-plot .plotly .modebar {
         background: rgba(26,28,36,0.8) !important;
