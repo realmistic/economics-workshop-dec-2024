@@ -88,6 +88,46 @@ Explore the **TODOs** in the code and contribute your ideas to bring this vision
 ## Project Reproduction
 For detailed instructions on how to reproduce this project from scratch using AI-assisted development, see [REPRODUCTION.md](REPRODUCTION.md).
 
+## Deployment Options
+
+### Streamlit Community Cloud (Current Demo)
+The [live demo](https://economics-workshop-dec-2024.streamlit.app/) runs on Streamlit Community Cloud with static data. This means:
+- Data is not automatically updated
+- Perfect for demonstration purposes
+- Limited to showing historical data
+
+To deploy your version on Streamlit Community Cloud:
+1. Fork this repository
+2. Connect it to your Streamlit Cloud account
+3. Deploy directly from GitHub
+
+For dynamic data updates on Community Cloud, you could:
+- Set up GitHub Actions for periodic data collection
+- Use external databases instead of local SQLite
+- Implement API-based data fetching
+
+### Production Deployment (Recommended)
+For a full-featured deployment with real-time updates, use the Docker container on a cloud platform (AWS, GCP, Azure):
+
+1. Push the container to your cloud registry:
+```bash
+docker tag data_app your-registry/data_app:latest
+docker push your-registry/data_app:latest
+```
+
+2. Deploy using cloud platform's container service (e.g., AWS ECS, GCP Cloud Run)
+   - Ensures automated data collection via cron jobs
+   - Maintains persistent data storage
+   - Provides real-time cryptocurrency updates
+   - Offers better scalability and reliability
+
+This approach maintains all features including:
+- Automated daily economic data updates
+- Real-time cryptocurrency data collection
+- Persistent data storage
+- Health monitoring
+- Production-grade reliability
+
 ## Quick Start
 
 ### Docker Deployment (Recommended)
