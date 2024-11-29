@@ -8,7 +8,7 @@ def show():
     try:
         # Fed Funds Rate
         fedfunds_query = """
-        SELECT *
+        SELECT date, FEDFUNDS/100 as FEDFUNDS
         FROM fedfunds
         ORDER BY date
         """
@@ -18,31 +18,32 @@ def show():
         fig_fedfunds.add_trace(go.Scatter(x=fedfunds.index, y=fedfunds['FEDFUNDS'], 
                                        name='Federal Funds Rate',
                                        line=dict(color='#FFBA08', width=2)))
-        fig_fedfunds.update_layout(get_chart_layout('Federal Funds Rate'))
+        layout = get_chart_layout('Federal Funds Rate')
+        layout.update(yaxis=dict(tickformat='.1%'))
+        fig_fedfunds.update_layout(layout)
         st.plotly_chart(fig_fedfunds, use_container_width=True)
 
         # Add Fed Funds Rate commentary
         st.markdown("""
-        **What is the Federal Funds Rate?**: This is the interest rate that banks charge each other for short-term loans. The Federal Reserve (the U.S. central bank) sets this rate to help control inflation and keep the economy stable. When the Fed raises the rate, borrowing becomes more expensive.
-
-        **Impact on Mortgages and Loans**: When the Fed raises rates, mortgage rates and loan interest rates typically go up. This means your monthly mortgage payments could increase if you're taking out a new loan or refinancing your mortgage. It also affects credit card rates and car loans, so borrowing can become more costly.
-
-        **What Does This Mean for You?**: If you're thinking about buying a home or taking out a loan, you may want to consider doing so sooner rather than later, before rates rise further. On the other hand, if you have savings or a fixed-rate investment, you might not feel much impact from these changes.
+        * **Policy Rate**: The Federal Funds Rate is the key interest rate that banks charge each other for overnight loans, serving as a benchmark for other interest rates in the economy.
+        * **Economic Impact**: When the Fed raises rates, it aims to control inflation by making borrowing more expensive, which can slow economic growth and spending.
+        * **Market Effect**: Rate changes affect various markets - higher rates typically strengthen the dollar and can pressure stock valuations, especially for growth companies.
+        * **Retail Investor**: When rates are rising, consider increasing allocation to financial sector stocks and short-duration bonds. During rate cuts, growth stocks and longer-duration bonds often perform better.
         """)
 
         # Treasury Yields
         yields_1y_query = """
-        SELECT *
+        SELECT date, DGS1/100 as DGS1
         FROM dgs1
         ORDER BY date
         """
         yields_5y_query = """
-        SELECT *
+        SELECT date, DGS5/100 as DGS5
         FROM dgs5
         ORDER BY date
         """
         yields_10y_query = """
-        SELECT *
+        SELECT date, DGS10/100 as DGS10
         FROM dgs10
         ORDER BY date
         """
@@ -60,21 +61,17 @@ def show():
         fig_treasury.add_trace(go.Scatter(x=yields_10y.index, y=yields_10y['DGS10'], 
                                        name='10-Year',
                                        line=dict(color='#FF00FF', width=2)))
-        fig_treasury.update_layout(get_chart_layout('Treasury Yields'))
+        layout = get_chart_layout('Treasury Yields')
+        layout.update(yaxis=dict(tickformat='.1%'))
+        fig_treasury.update_layout(layout)
         st.plotly_chart(fig_treasury, use_container_width=True)
 
         # Add Treasury Yields commentary
         st.markdown("""
-        **What Are Treasury Yields?**: Treasury yields are the returns (or interest rates) that the U.S. government pays to borrow money for different periods (like 1 year, 5 years, or 10 years). The higher the yield, the more the government has to pay in interest to borrow money.
-
-        **Impact on Savings and Mortgages**: When Treasury yields go up, interest rates on savings accounts, mortgages, and other loans often rise too. This means that if you have a mortgage or are planning to borrow money, your payments could go up. On the flip side, if you're saving money, you may get a better return on savings accounts or CDs.
-
-        **Bond Yields vs. Stocks**: When yields (or interest rates) rise, bonds become more attractive because they pay higher interest. As a result, stock prices might fall a bit, as people may prefer safer investments like bonds over riskier ones like stocks. So, if you have some money in the stock market, rising yields could impact your investment returns.
-
-        **Key Takeaways for Everyday Decisions**:
-        * For Savings: If interest rates rise (both in Treasury yields and the Federal Funds Rate), you could earn more on your savings accounts, CDs, or bonds.
-        * For Mortgages: Higher interest rates from the Fed or rising Treasury yields could lead to higher monthly mortgage payments or loan costs. If you're planning to buy a house or refinance, it may be better to do so sooner, before rates go up more.
-        * For Investing in Stocks: Rising interest rates can make bonds more attractive, which could lead to lower stock prices in the short term. However, if you're a passive investor in stocks, it's important to stay focused on the long-term growth potential of your investments.
+        * **Yield Curve**: Treasury yields show interest rates at different maturities. Normally, longer-term yields are higher than shorter-term ones, reflecting greater uncertainty over longer periods.
+        * **Economic Signal**: When short-term yields exceed long-term yields (curve inversion), it often signals economic concerns and has historically preceded recessions.
+        * **Bond Prices**: Remember that bond prices move inversely to yields - when yields rise, existing bond prices fall, and vice versa.
+        * **Retail Investor**: Consider building a "ladder" of bonds with different maturities to manage interest rate risk. During yield curve inversion, it might be prudent to increase cash reserves and focus on high-quality, shorter-duration bonds.
         """)
 
     except Exception as e:
