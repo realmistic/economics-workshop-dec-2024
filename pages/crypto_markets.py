@@ -4,7 +4,7 @@ from utils import load_btc_data, get_chart_layout
 
 def show():
     st.header('Cryptocurrency Markets')
-    
+        
     try:
         # Load BTC data
         btc_data = load_btc_data()
@@ -17,6 +17,12 @@ def show():
         fig_btc.update_layout(get_chart_layout('BTC/USD Price'))
         st.plotly_chart(fig_btc, use_container_width=True)
         
+        # Add explanatory text
+        st.markdown("""
+        * **Alternative Asset Class**: Cryptocurrencies represent a distinct asset class that historically has shown lower correlation with traditional investments like stocks and bonds, potentially offering portfolio diversification benefits.
+        * **Real-Time Data Pipeline**: This dashboard displays minute-level BTC/USD data that updates with a 2-3 minute lag, demonstrating an automated data pipeline for near real-time market monitoring.
+        """)
+
         # Volume chart
         fig_volume = go.Figure()
         fig_volume.add_trace(go.Bar(x=btc_data['Datetime'], y=btc_data['Volume'], 
