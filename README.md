@@ -47,8 +47,6 @@ This repository is a step toward a **generic Data Science project template** wit
 
 With these pieces in place, the real focus can shift to **predictions**, **machine learning**, and advanced strategy development—what really matters for understanding markets and making decisions.
 
-Explore the **TODOs** in the code and contribute your ideas to bring this vision to life!
-
 ## Features
 - Real-time cryptocurrency data collection
 - Daily economic indicators updates
@@ -87,46 +85,6 @@ Explore the **TODOs** in the code and contribute your ideas to bring this vision
 
 ## Project Reproduction
 For detailed instructions on how to reproduce this project from scratch using AI-assisted development, see [REPRODUCTION.md](REPRODUCTION.md).
-
-## Deployment Options
-
-### Streamlit Community Cloud (Current Demo)
-The [live demo](https://economics-workshop-dec-2024.streamlit.app/) runs on Streamlit Community Cloud with static data. This means:
-- Data is not automatically updated
-- Perfect for demonstration purposes
-- Limited to showing historical data
-
-To deploy your version on Streamlit Community Cloud:
-1. Fork this repository
-2. Connect it to your Streamlit Cloud account
-3. Deploy directly from GitHub
-
-For dynamic data updates on Community Cloud, you could:
-- Set up GitHub Actions for periodic data collection
-- Use external databases instead of local SQLite
-- Implement API-based data fetching
-
-### Production Deployment (Recommended)
-For a full-featured deployment with real-time updates, use the Docker container on a cloud platform (AWS, GCP, Azure):
-
-1. Push the container to your cloud registry:
-```bash
-docker tag data_app your-registry/data_app:latest
-docker push your-registry/data_app:latest
-```
-
-2. Deploy using cloud platform's container service (e.g., AWS ECS, GCP Cloud Run)
-   - Ensures automated data collection via cron jobs
-   - Maintains persistent data storage
-   - Provides real-time cryptocurrency updates
-   - Offers better scalability and reliability
-
-This approach maintains all features including:
-- Automated daily economic data updates
-- Real-time cryptocurrency data collection
-- Persistent data storage
-- Health monitoring
-- Production-grade reliability
 
 ## Quick Start
 
@@ -214,3 +172,97 @@ streamlit run app.py
 ```
 
 3. For data collection, it's recommended to use the Docker container as it handles all the necessary environment setup and scheduling.
+
+
+
+## Cloud Deployment Options
+
+### 1. Streamlit Community Cloud (Current Demo, easiest)
+This option is perfect for demos and simple deployments. The data will be static but it's free and easy to set up.
+
+> [!NOTE]
+> The [live demo](https://economics-workshop-dec-2024.streamlit.app/) runs on Streamlit Community Cloud.
+
+
+### Steps:
+1. Fork this repository to your GitHub account
+2. Go to [share.streamlit.io](https://share.streamlit.io)
+3. Sign in with your GitHub account
+4. Click "New app"
+5. Select your forked repository
+6. Set main branch and app path to `app.py`
+7. Click "Deploy"
+
+Your app will be available at `https://[your-app-name].streamlit.app`
+
+Note: The Community Cloud version will have static data. For dynamic updates, consider:
+- Setting up GitHub Actions for periodic data collection
+- Using external databases instead of local SQLite
+- Implementing API-based data fetching
+
+
+
+### 2. Cloud Platform Deployment (Full Control)
+
+### Digital Ocean (Recommended for Beginners)
+
+Digital Ocean offers a good balance of simplicity and control.
+
+1. Create account at [digitalocean.com](https://m.do.co/c/bb21d245e296). (This is a referral link by Ivan: you will have $200 in credit over 60 days)
+2. Install Docker on your machine
+3. Build and push container:
+```bash
+docker build -t data_app .
+docker tag data_app registry.digitalocean.com/your-registry/data_app
+docker push registry.digitalocean.com/your-registry/data_app
+```
+4. Deploy via App Platform or Droplet
+5. Set up volumes for data persistence
+
+Cost: Starting at ~$5/month
+
+### 3. AWS/GCP/Azure (Enterprise)
+For full control and scalability, use major cloud providers.
+
+Example using AWS:
+1. Create AWS account
+2. Install AWS CLI
+3. Push to ECR:
+```bash
+aws ecr get-login-password --region region | docker login --username AWS --password-stdin aws_account_id.dkr.ecr.region.amazonaws.com
+docker tag data_app aws_account_id.dkr.ecr.region.amazonaws.com/data_app
+docker push aws_account_id.dkr.ecr.region.amazonaws.com/data_app
+```
+4. Deploy using ECS or EKS
+5. Set up EFS for data persistence
+
+Cost: Starting at ~$20/month
+
+## Cloud Deployment Comparison
+
+### Streamlit Community Cloud
+✅ Free
+✅ Easy setup
+✅ Good for demos
+❌ Static data only
+❌ Limited control
+
+### Digital Ocean
+✅ Simple pricing
+✅ Good documentation
+✅ Moderate control
+✅ Data persistence
+❌ Basic monitoring
+
+### AWS/GCP/Azure
+✅ Full control
+✅ Enterprise features
+✅ Advanced monitoring
+✅ Auto-scaling
+❌ Complex setup
+❌ Higher cost
+
+Choose based on your needs:
+- Demo/Portfolio: Use Streamlit Cloud
+- Small Project: Use Digital Ocean
+- Enterprise/Production: Use AWS/GCP/Azure
