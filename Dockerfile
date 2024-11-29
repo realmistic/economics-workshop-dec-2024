@@ -13,7 +13,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application files (excluding data directory)
 COPY app.py .
+COPY utils.py .
 COPY scripts/ scripts/
+COPY pages/ pages/
+COPY static/ static/
 
 # Make shell scripts executable
 RUN chmod +x scripts/minute_job.sh scripts/daily_job.sh
