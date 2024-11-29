@@ -32,11 +32,10 @@ def show():
         
         # Add S&P 500 commentary
         st.markdown("""
-        **What Does This Show?**: The S&P 500 chart tracks the performance of 500 large U.S. companies. The moving averages (20-day, 50-day, and 200-day) smooth out short-term price fluctuations, showing long-term trends.
-
-        **Impact on Everyday Investors**: The steady growth of the S&P 500 over the years indicates strong long-term returns for passive investors. However, short-term dips (like those seen in 2020 during the pandemic) are reminders that markets can be volatile.
-
-        **Why It Matters**: For long-term investors, the upward trend encourages staying invested through market ups and downs. The moving averages can also signal potential changes in momentum—for example, when the index falls below a moving average, it may indicate a short-term slowdown.
+        * **Technical Overview**: The S&P 500 tracks 500 large U.S. companies, with moving averages (20-day, 50-day, and 200-day) showing trend strength and momentum.
+        * **Market Context**: Moving averages help identify market trends - when price is above longer-term averages, it suggests an uptrend; below suggests a downtrend.
+        * **Historical Perspective**: Despite periodic downturns (like 2008, 2020), the index shows a long-term upward trend, reflecting overall economic growth.
+        * **Retail Investor**: Consider the 200-day moving average as a key reference - when S&P 500 is above it, maintain regular investments; when below, you might gradually increase positions during dips while keeping some cash reserve.
         """)
 
         # VIX
@@ -64,15 +63,10 @@ def show():
 
         # Add VIX commentary
         st.markdown("""
-        **What is the VIX?**: Often called the "fear gauge," the VIX measures expected market volatility. Higher values suggest that investors anticipate large price swings (uncertainty), while lower values mean the market is stable.
-
-        **Impact on Investors**: Spikes in the VIX (e.g., during 2008, 2020) often coincide with major market downturns or crises. For passive investors, high VIX levels might feel unsettling, but historically, markets recover over time.
-
-        **Why It Matters**: A lower VIX generally signals confidence in the market, making it a more favorable environment for investing. However, investors should be cautious when the VIX rises sharply, as it often signals turbulence in the stock market.
-
-        **Key Takeaways for the Average Citizen**:
-        * **For Long-Term Investors**: The steady upward trend in the S&P 500 highlights the importance of patience and not reacting to short-term market volatility.
-        * **For Understanding Volatility**: The VIX is a helpful indicator to monitor market uncertainty, but remember that spikes in volatility are often short-lived and do not derail long-term growth.
+        * **Market Fear Gauge**: The VIX measures expected market volatility, with higher values indicating uncertainty and lower values suggesting stability.
+        * **Historical Context**: Major spikes (like in 2008, 2020) typically coincide with significant market events or crises.
+        * **Trend Analysis**: The moving averages help identify if volatility is increasing or decreasing over time.
+        * **Retail Investor**: High VIX levels (above 30) often present buying opportunities, but enter gradually. Very low VIX (below 15) might signal market complacency - consider taking some profits or maintaining a balanced portfolio.
         """)
 
     except Exception as e:
