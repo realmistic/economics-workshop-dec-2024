@@ -7,13 +7,13 @@
   <em>Economic Indicators Dashboard showing unemployment rate trends and analysis</em>
 </p>
 
-A comprehensive economic data dashboard that combines data from multiple sources (Yahoo Finance, FRED, and cryptocurrency data) into a Streamlit application with automated data collection and visualization.
+A comprehensive economic data dashboard that combines data from multiple sources (Yahoo Finance, FRED) into a Streamlit application with automated data collection and visualization.
 
 ## Introduction
 
 Hi, I'm **Ivan Brigida**, an Analyst at Google with a background in **Economics** and **Data Analysis**. Before joining Google, I worked in the banking sector, and 3 years ago, I started investing in **U.S. markets** while living in **Ireland**. My work and investing experience focus on using **economic data** to understand the economy, make financial decisions, and develop market strategies. You can read more about my approach in my [blog post about macro indicators affecting the stock market](https://pythoninvest.com/long-read/macro-indicators-affecting-stock-market).
 
-Last year, I ran the **[Stock Markets Analysis Zoomcamp](https://pythoninvest.com/course)**, which attracted **1,800+ registrations**. I'll be running it again in **2025** to introduce participants to economic data with reduced technical complexity.
+Last year, I ran the **[Stock Markets Analysis Zoomcamp](https://pythoninvest.com/course)**, which attracted **1,800+ registrations**. I'll be running it again in **2025**, you can express your interest here:
 
 <p align="center">
   <a href="https://pythoninvest.com/course"><img src="https://user-images.githubusercontent.com/875246/185755203-17945fd1-6b64-46f2-8377-1011dcb1a444.png" height="50" /></a>
@@ -198,20 +198,6 @@ docker logs finance_test
 
 # Check data collection status
 docker exec finance_test sqlite3 /app/data/economics_data.db "SELECT COUNT(*) FROM btc_minute;"
-```
-
-### Docker Cleanup
-To remove unused Docker resources:
-```bash
-# List containers and images
-docker ps -a
-docker images
-
-# Remove stopped containers
-docker rm $(docker ps -aq)
-
-# Remove unused images
-docker rmi $(docker images -f "dangling=true" -q)
 ```
 
 ### Local Development (Advanced)
