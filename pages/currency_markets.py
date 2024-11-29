@@ -23,11 +23,10 @@ def show():
         
         # Add Commentary for Trade Weighted U.S. Dollar Index
         st.markdown("""
-        **What is the Dollar Index?**: The Trade Weighted Dollar Index measures the U.S. dollar's strength against a basket of major world currencies. A rising index means the dollar is getting stronger compared to other currencies, while a falling index indicates it's getting weaker.
-
-        **Impact on Global Trade**: When the dollar strengthens (index rises), U.S. exports become more expensive for other countries, potentially reducing international sales. However, imports become cheaper for U.S. consumers and businesses. The opposite occurs when the dollar weakens.
-
-        **Why It Matters**: A stronger dollar can help control inflation by making imports cheaper, but it can hurt U.S. companies that sell products internationally. For travelers, a stronger dollar means more purchasing power when visiting other countries.
+        * **Market Measure**: The Trade Weighted Dollar Index shows the U.S. dollar's strength against major world currencies. A rising index indicates dollar strengthening, falling means weakening.
+        * **Economic Impact**: A stronger dollar makes U.S. exports more expensive but imports cheaper, affecting trade balance and inflation.
+        * **Global Context**: Dollar strength often reflects relative economic performance and interest rate differences between the U.S. and other countries.
+        * **Retail Investor**: During strong dollar periods, consider U.S. companies focused on domestic market or importers. When dollar weakens, look at U.S. exporters and international stocks that benefit from currency translation gains.
         """)
         
         # EUR/USD
@@ -47,21 +46,10 @@ def show():
 
         # Add Commentary for EUR/USD Exchange Rate
         st.markdown("""
-        **What is EUR/USD?**: This shows how many U.S. dollars one euro can buy. For example, if EUR/USD is 1.08, it means 1 euro can buy 1.08 U.S. dollars. This is one of the world's most traded currency pairs.
-
-        **Current Trend**: The euro has been weakening against the dollar, as shown by the declining EUR/USD rate. This trend reflects stronger U.S. economic performance and differences in monetary policy between the Federal Reserve and European Central Bank.
-
-        **Impact on Trade and Travel**: With the euro weakening against the dollar:
-        - European goods are becoming cheaper for American buyers
-        - U.S. products are becoming more expensive in Europe
-        - Travel to Europe is becoming more affordable for Americans
-        - European companies earning dollars (through exports) benefit when converting back to euros
-        
-        **Key Takeaways for the Average Citizen:**
-
-        - For U.S. Travelers: Now might be a good time to plan European trips as your dollars will buy more euros
-        - For U.S. Consumers: European imports (like wines, cars, or luxury goods) may become more affordable
-        - For Investors: Consider how currency weakness might boost European export-oriented companies, while potentially creating headwinds for U.S. companies with large European operations
+        * **Exchange Rate**: EUR/USD shows how many dollars one euro can buy. Higher rate means stronger euro/weaker dollar, lower rate means weaker euro/stronger dollar.
+        * **Policy Impact**: The rate reflects differences in monetary policy between the Federal Reserve and European Central Bank, as well as relative economic strength.
+        * **Trade Effects**: A stronger euro benefits U.S. exporters to Europe but makes European goods more expensive for U.S. consumers, and vice versa.
+        * **Retail Investor**: Consider European stocks when EUR/USD is low (European exporters benefit), and U.S. stocks when EUR/USD is high (U.S. exporters benefit). For travelers, a high EUR/USD means expensive European trips, while low rates make European travel more affordable.
         """)
     except Exception as e:
         st.error(f"Error in Currency Markets: {str(e)}")
