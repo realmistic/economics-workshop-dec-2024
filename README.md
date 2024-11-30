@@ -34,7 +34,7 @@ However, I want to avoid the overhead of tasks like:
 - Coding **dashboards**, debugging **JavaScript**, or dealing with **CSS styles**.
 - Handling **containerization** and deployment.
 
-AI tools have helped me bridge these gaps, saving time and energy (at <$20/month). I'm focusing on what I do best while letting technology handle the rest.
+AI tools have helped me bridge these gaps, saving time and energy (at <$30/month). I'm focusing on what I do best while letting technology handle the rest.
 
 ---
 
@@ -209,15 +209,49 @@ Note: The Community Cloud version will have static data. For dynamic updates, co
 Digital Ocean offers a good balance of simplicity and control.
 
 1. Create account at [digitalocean.com](https://m.do.co/c/bb21d245e296). (This is a referral link by Ivan: you will have $200 in credit over 60 days)
+
 2. Install Docker on your machine
-3. Build and push container:
+> [!TIP]
+> You can skip this step by creating a Droplet with Docker pre-installed using Digital Ocean's "Docker" image when creating your droplet. 
+> This is the recommended approach as it saves time and ensures proper Docker setup.
+> See [How to Use the Docker 1-Click Install on DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-use-the-docker-1-click-install-on-digitalocean) for detailed instructions.
+
+3. Generate GitHub Personal Access Token (Required for repository access)
+   - Go to https://github.com/settings/tokens
+   - Click "Generate new token" → "Generate new token (classic)"
+   - Name: "digital-ocean-deployment"
+   - Select scope: check "repo"
+   - Click "Generate token"
+   - COPY THE TOKEN IMMEDIATELY (you won't see it again)
+
+4. Deploy the application:
 ```bash
+# Clone repository using your token (replace YOUR_TOKEN)
+git clone https://YOUR_TOKEN@github.com/realmistic/economics-workshop-dec-2024.git
+cd economics-workshop-dec-2024
+
+# Build and run locally on droplet
 docker build -t data_app .
-docker tag data_app registry.digitalocean.com/your-registry/data_app
-docker push registry.digitalocean.com/your-registry/data_app
+docker run -d --name finance_test -p 80:8501 -v $(pwd)/data:/app/data data_app
 ```
-4. Deploy via App Platform or Droplet
-5. Set up volumes for data persistence
+
+> [!NOTE]
+> If you don't want to use your token directly in the git clone command, you can also:
+> ```bash
+> git config --global credential.helper store
+> git clone https://github.com/realmistic/economics-workshop-dec-2024.git
+> # When prompted for password, use your token
+> ```
+
+5. Get your droplet's IP address:
+```bash
+hostname -I | awk '{print $1}'
+```
+
+6. Access your dashboard by entering your droplet's IP address in a web browser:
+   `http://YOUR_DROPLET_IP`
+
+Note: The dashboard works without specifying a port because we mapped the container's port 8501 to the host's port 80 (standard HTTP port) in the docker run command (`-p 80:8501`).
 
 Cost: Starting at ~$5/month
 
