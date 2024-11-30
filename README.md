@@ -19,6 +19,14 @@ Last year, I ran the **[Stock Markets Analysis Zoomcamp](https://pythoninvest.co
   <a href="https://pythoninvest.com/course"><img src="https://user-images.githubusercontent.com/875246/185755203-17945fd1-6b64-46f2-8377-1011dcb1a444.png" height="50" /></a>
 </p>
 
+## 🙌 Support PythonInvest
+
+Help us grow and improve PythonInvest:  
+
+1. **Engage**: 🌟 Star this repo, 👍 like the video, and 💬 comment on YouTube.  
+2. **Contribute**: 🍴 Fork the repo, try it, tweak the indicators, and share feedback with a link.  
+3. **Donate**: ☕ [Buy Me a Coffee](https://buymeacoffee.com/pythoninvest) or ❤️ [GitHub Sponsorship](https://github.com/sponsors/realmistic).  
+
 ---
 
 ### My Skills and Motivation
