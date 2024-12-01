@@ -34,7 +34,7 @@ Help us grow and improve PythonInvest:
 I'm skilled in:
 - Writing **SQL code** for analysis and workflows.
 - Building **graphs** and conducting data-driven analysis.
-- Creating **basic trading strategies**, though they can get complex.
+- Deliverying business insights.
 
 However, I want to avoid the overhead of tasks like:
 - Managing **data pipelines** and **databases**.
@@ -56,10 +56,9 @@ This repository is a step toward a **generic Data Science project template** wit
 With these pieces in place, the real focus can shift to **predictions**, **machine learning**, and advanced strategy development—what really matters for understanding markets and making decisions.
 
 ## Features
-- Real-time cryptocurrency data collection
+- (Near) real-time cryptocurrency data collection
 - Daily economic indicators updates
 - Interactive visualizations
-- Professional dark theme UI
 - Containerized deployment
 - Automated data collection via cron jobs
 - SQLite database for data storage
