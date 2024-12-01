@@ -70,9 +70,15 @@ With these pieces in place, the real focus can shift to **predictions**, **machi
 ├── app.py                      # Streamlit application
 ├── utils.py                    # Shared utilities (DB, data loading, chart styling)
 ├── data/                       # Data directory
-│   └── economics_data.db       # SQLite database
+│   ├── economics_data.db       # SQLite database
+│   ├── snp_500_minute_yfinance.parquet # S&P 500 minute data
+│   └── test_db.db             # Test database
 ├── Dockerfile                  # Container configuration
 ├── requirements.txt            # Python dependencies
+├── interactive_notebooks/      # Interactive Python notebooks
+│   └── data_visualization.py   # Visualization utilities
+├── notebooks/                  # Jupyter notebooks
+│   └── manual_start.ipynb      # Manual startup notebook
 ├── scripts/
 │   ├── btc_minute_data.py     # Cryptocurrency data collection
 │   ├── daily_job.sh           # Daily collection script
@@ -85,8 +91,11 @@ With these pieces in place, the real focus can shift to **predictions**, **machi
 │   ├── currency_markets.py    # Currency markets page
 │   └── crypto_markets.py      # Cryptocurrency markets page
 ├── static/
-│   └── css/
-│       └── style.css          # Application styling
+│   ├── css/
+│   │   └── style.css          # Application styling
+│   └── images/                # Static images
+│       ├── dashboard_preview.png # Dashboard preview
+│       └── logo.png           # Application logo
 └── README.md                  # Project documentation
 ```
 
@@ -174,8 +183,6 @@ docker exec finance_test sqlite3 /app/data/economics_data.db "SELECT COUNT(*) FR
 ### Accessing the Dashboard
 Access the dashboard at http://localhost:8501
 
-
-
 ## Cloud Deployment Options
 
 ### 1. Streamlit Community Cloud (Current Demo, easiest)
@@ -200,8 +207,6 @@ Note: The Community Cloud version will have static data. For dynamic updates, co
 - Setting up GitHub Actions for periodic data collection
 - Using external databases instead of local SQLite
 - Implementing API-based data fetching
-
-
 
 ### 2. Cloud Platform Deployment (Full Control)
 
