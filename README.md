@@ -107,7 +107,18 @@ For detailed instructions on how to reproduce this project from scratch using AI
 ### Local Development
 Note: The scripts are designed to run within the Docker container. For local development:
 
-1. Install dependencies:
+1. Create and activate a virtual environment, install dependencies:
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# On macOS/Linux:
+source venv/bin/activate
+# On Windows:
+.\venv\Scripts\activate
+```
+
 ```bash
 pip install -r requirements.txt
 ```
