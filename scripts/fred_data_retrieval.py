@@ -42,7 +42,8 @@ def fetch_macro(min_date=None):
         ("DTWEXBGS", "Trade Weighted U.S. Dollar Index: Broad, Goods"),
         ("DEXUSEU", "U.S. / Euro Foreign Exchange Rate"),
         ("VIXCLS", "VIX Volatility Index"),
-        ("SP500", "S&P 500")
+        ("SP500", "S&P 500"),
+        ("PSAVERT", "Personal Saving Rate")
     ]
     
     data = {}
@@ -132,6 +133,16 @@ def fetch_macro(min_date=None):
             sp500['sp500_returns_monthly'] = sp500.SP500 / sp500.SP500.shift(20) - 1
             sp500['sp500_returns_yearly'] = sp500.SP500 / sp500.SP500.shift(252) - 1
             data['sp500'] = sp500
+
+        # Personal Saving Rate
+        elif metric_code == "PSAVERT":
+            psavert = pdr.DataReader(metric_code, "fred", start=min_date)
+            # Calculate rolling averages for saving rate
+            psavert['saving_rate_ma3'] = psavert.PSAVERT.rolling(window=3).mean()
+            psavert['saving_rate_ma12'] = psavert.PSAVERT.rolling(window=12).mean()
+            # Calculate year-over-year change
+            psavert['saving_rate_yoy_change'] = psavert.PSAVERT - psavert.PSAVERT.shift(12)
+            data['psavert'] = psavert
         
         # Other metrics
         else:

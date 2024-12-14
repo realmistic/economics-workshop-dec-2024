@@ -50,6 +50,14 @@ else:
     eurusd = pd.read_sql('SELECT * FROM dexuseu', engine, parse_dates=['date']).set_index('date')
     vix = pd.read_sql('SELECT * FROM vixcls', engine, parse_dates=['date']).set_index('date')
     sp500 = pd.read_sql('SELECT * FROM sp500', engine, parse_dates=['date']).set_index('date')
+    # Load Personal Saving Rate data
+    psavert = pd.read_sql('''
+        SELECT 
+            date, 
+            PSAVERT/100 as saving_rate,
+            (PSAVERT / LAG(PSAVERT, 12) OVER (ORDER BY date) - 1) as saving_rate_yoy
+        FROM psavert
+    ''', engine, parse_dates=['date']).set_index('date')
     print("Data loading completed!")
 
     #%% [markdown]
@@ -369,3 +377,43 @@ else:
         hovermode='x unified'
     )
     fig_vix.show()
+
+    #%% [markdown]
+    # ## Personal Saving Rate Visualization
+
+    #%%
+    # Create Personal Saving Rate plot
+    fig_psavert = go.Figure()
+    # Add saving rate as bars
+    fig_psavert.add_trace(go.Bar(
+        x=psavert.index,
+        y=psavert['saving_rate'],
+        name='Personal Saving Rate',
+        marker_color='blue'
+    ))
+    # Add YoY change as line on secondary y-axis
+    fig_psavert.add_trace(go.Scatter(
+        x=psavert.index,
+        y=psavert['saving_rate_yoy'],
+        name='Year-over-Year Change',
+        line=dict(color='red', width=2),
+        yaxis='y2'
+    ))
+    fig_psavert.update_layout(
+        title='U.S. Personal Saving Rate',
+        yaxis=dict(
+            title='Saving Rate',
+            tickformat='.1%',
+            side='left'
+        ),
+        yaxis2=dict(
+            title='YoY Change',
+            tickformat='.1%',
+            overlaying='y',
+            side='right'
+        ),
+        template='plotly_white',
+        hovermode='x unified',
+        barmode='relative'
+    )
+    fig_psavert.show()

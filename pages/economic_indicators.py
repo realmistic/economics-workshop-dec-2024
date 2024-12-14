@@ -136,5 +136,49 @@ def show():
         * **Retail Investor**: Regional inflation differences can create opportunities - consider exposure to markets with lower inflation trends, as they may face less pressure from rate hikes. During high inflation periods across regions, global commodity-related investments might offer protection.
         """)
 
+        # Personal Saving Rate
+        saving_rate_query = """
+        SELECT 
+            date, 
+            PSAVERT/100 as saving_rate,
+            (PSAVERT / LAG(PSAVERT, 12) OVER (ORDER BY date) - 1) as saving_rate_yoy
+        FROM psavert
+        ORDER BY date
+        """
+        saving_rate = load_data(saving_rate_query)
+        
+        fig_saving_rate = go.Figure()
+        # Add saving rate as bars
+        fig_saving_rate.add_trace(go.Bar(x=saving_rate.index, y=saving_rate['saving_rate'], 
+                                       name='Personal Saving Rate',
+                                       marker_color='#FFBA08'))
+        # Add YoY change as line on secondary y-axis
+        fig_saving_rate.add_trace(go.Scatter(x=saving_rate.index, y=saving_rate['saving_rate_yoy'], 
+                                           name='Year-over-Year Change',
+                                           line=dict(color='#00FFF0', width=2),
+                                           yaxis='y2'))
+        
+        layout = get_chart_layout('U.S. Personal Saving Rate')
+        layout.update(
+            yaxis=dict(tickformat='.1%', title='Saving Rate'),
+            yaxis2=dict(
+                tickformat='.1%',
+                title='YoY Change',
+                overlaying='y',
+                side='right'
+            ),
+            barmode='relative'
+        )
+        fig_saving_rate.update_layout(layout)
+        st.plotly_chart(fig_saving_rate, use_container_width=True)
+
+        # Add Personal Saving Rate commentary
+        st.markdown("""
+        * **Economic Health Indicator**: The personal saving rate reflects households' financial health and confidence in the economy. Higher rates often indicate uncertainty or preparation for future expenses, while lower rates might suggest consumer confidence or financial strain.
+        * **Policy Impact**: Changes in saving rates can influence monetary and fiscal policy decisions, as they affect consumer spending, which drives about 70% of U.S. economic activity.
+        * **Economic Cycle Indicator**: Sharp increases in saving rates often precede or coincide with economic downturns, as households build precautionary savings. Conversely, declining rates might signal increasing consumer confidence or economic recovery.
+        * **Retail Investor**: High saving rates might indicate future spending potential, benefiting consumer discretionary sectors when confidence returns. Low rates could signal either strong consumer confidence or financial stress - analyze alongside other indicators like consumer confidence and debt levels.
+        """)
+
     except Exception as e:
         st.error(f"Error in Economic Indicators: {str(e)}")
