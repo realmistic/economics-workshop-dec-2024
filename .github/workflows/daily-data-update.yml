@@ -29,3 +29,10 @@ jobs:
       run: |
         python scripts/fred_data_retrieval.py
         python scripts/btc_minute_data.py
+
+    - name: Commit and push if changed
+      run: |
+        git config --global user.email "github-actions@github.com"
+        git config --global user.name "GitHub Actions"
+        git add data/economics_data.db
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Update economic data" && git push)
