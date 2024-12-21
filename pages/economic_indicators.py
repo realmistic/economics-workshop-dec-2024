@@ -20,14 +20,25 @@ def show():
         gdp_real = load_data(gdp_real_query)
         gdp_potential = load_data(gdp_potential_query)
         
+        st.subheader('U.S. Real GDP vs Potential GDP Growth (Year-over-Year)')
+        st.caption(f'<span style="background-color: #31333F; padding: 2px 6px; border-radius: 3px;"><b>Latest data: {gdp_real.index[-1].strftime("%B %Y")}</b></span> | Real GDP: {gdp_real["gdpc1_us_yoy"].iloc[-1]:.1%} | Potential GDP: {gdp_potential["gdppot_us_yoy"].iloc[-1]:.1%}', unsafe_allow_html=True)
+        
         fig_gdp = go.Figure()
-        fig_gdp.add_trace(go.Scatter(x=gdp_real.index, y=gdp_real['gdpc1_us_yoy'], 
-                                   name='Real GDP Growth',
-                                   line=dict(color='#FFBA08', width=2)))
-        fig_gdp.add_trace(go.Scatter(x=gdp_potential.index, y=gdp_potential['gdppot_us_yoy'], 
-                                   name='Potential GDP Growth',
-                                   line=dict(color='#00FFF0', width=2)))
-        layout = get_chart_layout('U.S. Real GDP vs Potential GDP Growth (Year-over-Year)')
+        fig_gdp.add_trace(go.Scatter(
+            x=gdp_real.index, 
+            y=gdp_real['gdpc1_us_yoy'],
+            name='Real GDP Growth',
+            line=dict(color='#FFBA08', width=2),
+            hovertemplate='Date: %{x}<br>Real GDP Growth: %{y:.1%}<extra></extra>'
+        ))
+        fig_gdp.add_trace(go.Scatter(
+            x=gdp_potential.index, 
+            y=gdp_potential['gdppot_us_yoy'],
+            name='Potential GDP Growth',
+            line=dict(color='#00FFF0', width=2),
+            hovertemplate='Date: %{x}<br>Potential GDP Growth: %{y:.1%}<extra></extra>'
+        ))
+        layout = get_chart_layout('')  # Empty title since we're using st.subheader
         layout.update(yaxis=dict(tickformat='.1%'))
         fig_gdp.update_layout(layout)
         st.plotly_chart(fig_gdp, use_container_width=True)
@@ -48,11 +59,18 @@ def show():
         """
         unemployment = load_data(unemployment_query)
         
+        st.subheader('U.S. Unemployment Rate')
+        st.caption(f'<span style="background-color: #31333F; padding: 2px 6px; border-radius: 3px;"><b>Latest data: {unemployment.index[-1].strftime("%B %Y")}</b></span> | Rate: {unemployment["UNRATE"].iloc[-1]:.1%}', unsafe_allow_html=True)
+        
         fig_unemployment = go.Figure()
-        fig_unemployment.add_trace(go.Scatter(x=unemployment.index, y=unemployment['UNRATE'], 
-                                           name='Unemployment Rate',
-                                           line=dict(color='#FFBA08', width=2)))
-        layout = get_chart_layout('U.S. Unemployment Rate')
+        fig_unemployment.add_trace(go.Scatter(
+            x=unemployment.index, 
+            y=unemployment['UNRATE'],
+            name='Unemployment Rate',
+            line=dict(color='#FFBA08', width=2),
+            hovertemplate='Date: %{x}<br>Unemployment Rate: %{y:.1%}<extra></extra>'
+        ))
+        layout = get_chart_layout('')
         layout.update(yaxis=dict(tickformat='.1%'))
         fig_unemployment.update_layout(layout)
         st.plotly_chart(fig_unemployment, use_container_width=True)
@@ -79,14 +97,25 @@ def show():
         cpi_core = load_data(cpi_core_query)
         cpi_all = load_data(cpi_all_query)
         
+        st.subheader('US Inflation/Consumer Price Index (Year-over-Year Change)')
+        st.caption(f'<span style="background-color: #31333F; padding: 2px 6px; border-radius: 3px;"><b>Latest data: {cpi_core.index[-1].strftime("%B %Y")}</b></span> | Core: {cpi_core["cpi_core_yoy"].iloc[-1]:.1%} | All Items: {cpi_all["cpi_all_yoy"].iloc[-1]:.1%}', unsafe_allow_html=True)
+        
         fig_cpi = go.Figure()
-        fig_cpi.add_trace(go.Scatter(x=cpi_core.index, y=cpi_core['cpi_core_yoy'], 
-                                   name='Core CPI',
-                                   line=dict(color='#FFBA08', width=2)))
-        fig_cpi.add_trace(go.Scatter(x=cpi_all.index, y=cpi_all['cpi_all_yoy'], 
-                                   name='All Items CPI',
-                                   line=dict(color='#00FFF0', width=2)))
-        layout = get_chart_layout('US Inflation/Consumer Price Index (Year-over-Year Change)')
+        fig_cpi.add_trace(go.Scatter(
+            x=cpi_core.index, 
+            y=cpi_core['cpi_core_yoy'],
+            name='Core CPI',
+            line=dict(color='#FFBA08', width=2),
+            hovertemplate='Date: %{x}<br>Core CPI: %{y:.1%}<extra></extra>'
+        ))
+        fig_cpi.add_trace(go.Scatter(
+            x=cpi_all.index, 
+            y=cpi_all['cpi_all_yoy'],
+            name='All Items CPI',
+            line=dict(color='#00FFF0', width=2),
+            hovertemplate='Date: %{x}<br>All Items CPI: %{y:.1%}<extra></extra>'
+        ))
+        layout = get_chart_layout('')
         layout.update(yaxis=dict(tickformat='.1%'))
         fig_cpi.update_layout(layout)
         st.plotly_chart(fig_cpi, use_container_width=True)
@@ -113,17 +142,32 @@ def show():
         ireland_cpi = load_data(ireland_cpi_query)
         euro_cpi = load_data(euro_cpi_query)
         
+        st.subheader('Ireland vs Euro Area vs. US CPI (Year-over-Year Change)')
+        st.caption(f'<span style="background-color: #31333F; padding: 2px 6px; border-radius: 3px;"><b>Latest data: {ireland_cpi.index[-1].strftime("%B %Y")}</b></span> | Ireland: {ireland_cpi["cpi_ireland_yoy"].iloc[-1]:.1%} | Euro: {euro_cpi["cpi_euro_yoy"].iloc[-1]:.1%} | US: {cpi_all["cpi_all_yoy"].iloc[-1]:.1%}', unsafe_allow_html=True)
+        
         fig_euro_cpi = go.Figure()
-        fig_euro_cpi.add_trace(go.Scatter(x=ireland_cpi.index, y=ireland_cpi['cpi_ireland_yoy'], 
-                                       name='Ireland CPI',
-                                       line=dict(color='#00FF00', width=2)))
-        fig_euro_cpi.add_trace(go.Scatter(x=euro_cpi.index, y=euro_cpi['cpi_euro_yoy'], 
-                                       name='Euro Area CPI',
-                                       line=dict(color='#003399', width=2)))
-        fig_euro_cpi.add_trace(go.Scatter(x=cpi_all.index, y=cpi_all['cpi_all_yoy'], 
-                                       name='US CPI (All Items)',
-                                       line=dict(color='#00FFF0', width=2)))
-        layout = get_chart_layout('Ireland vs Euro Area vs. US CPI (Year-over-Year Change)')
+        fig_euro_cpi.add_trace(go.Scatter(
+            x=ireland_cpi.index, 
+            y=ireland_cpi['cpi_ireland_yoy'],
+            name='Ireland CPI',
+            line=dict(color='#00FF00', width=2),
+            hovertemplate='Date: %{x}<br>Ireland CPI: %{y:.1%}<extra></extra>'
+        ))
+        fig_euro_cpi.add_trace(go.Scatter(
+            x=euro_cpi.index, 
+            y=euro_cpi['cpi_euro_yoy'],
+            name='Euro Area CPI',
+            line=dict(color='#003399', width=2),
+            hovertemplate='Date: %{x}<br>Euro Area CPI: %{y:.1%}<extra></extra>'
+        ))
+        fig_euro_cpi.add_trace(go.Scatter(
+            x=cpi_all.index, 
+            y=cpi_all['cpi_all_yoy'],
+            name='US CPI (All Items)',
+            line=dict(color='#00FFF0', width=2),
+            hovertemplate='Date: %{x}<br>US CPI: %{y:.1%}<extra></extra>'
+        ))
+        layout = get_chart_layout('')
         layout.update(yaxis=dict(tickformat='.1%'))
         fig_euro_cpi.update_layout(layout)
         st.plotly_chart(fig_euro_cpi, use_container_width=True)
@@ -147,18 +191,29 @@ def show():
         """
         saving_rate = load_data(saving_rate_query)
         
+        st.subheader('U.S. Personal Saving Rate')
+        st.caption(f'<span style="background-color: #31333F; padding: 2px 6px; border-radius: 3px;"><b>Latest data: {saving_rate.index[-1].strftime("%B %Y")}</b></span> | Rate: {saving_rate["saving_rate"].iloc[-1]:.1%} | YoY Change: {saving_rate["saving_rate_yoy"].iloc[-1]:.1%}', unsafe_allow_html=True)
+        
         fig_saving_rate = go.Figure()
         # Add saving rate as bars
-        fig_saving_rate.add_trace(go.Bar(x=saving_rate.index, y=saving_rate['saving_rate'], 
-                                       name='Personal Saving Rate',
-                                       marker_color='#FFBA08'))
+        fig_saving_rate.add_trace(go.Bar(
+            x=saving_rate.index, 
+            y=saving_rate['saving_rate'],
+            name='Personal Saving Rate',
+            marker_color='#FFBA08',
+            hovertemplate='Date: %{x}<br>Saving Rate: %{y:.1%}<extra></extra>'
+        ))
         # Add YoY change as line on secondary y-axis
-        fig_saving_rate.add_trace(go.Scatter(x=saving_rate.index, y=saving_rate['saving_rate_yoy'], 
-                                           name='Year-over-Year Change',
-                                           line=dict(color='#00FFF0', width=2),
-                                           yaxis='y2'))
+        fig_saving_rate.add_trace(go.Scatter(
+            x=saving_rate.index, 
+            y=saving_rate['saving_rate_yoy'],
+            name='Year-over-Year Change',
+            line=dict(color='#00FFF0', width=2),
+            yaxis='y2',
+            hovertemplate='Date: %{x}<br>YoY Change: %{y:.1%}<extra></extra>'
+        ))
         
-        layout = get_chart_layout('U.S. Personal Saving Rate')
+        layout = get_chart_layout('')
         layout.update(
             yaxis=dict(tickformat='.1%', title='Saving Rate'),
             yaxis2=dict(
