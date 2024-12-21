@@ -35,6 +35,16 @@ def get_latest_timestamp():
 def get_btc_minute_data():
     """
     Fetch minute-level data for BTC-USD and save it to SQLite database.
+    
+    Note on yfinance data availability:
+    - 1m: last 7 days
+    - 2m, 5m, 15m, 30m: last 60 days
+    - 60m: last 730 days
+    - 1d: max
+    Source: https://github.com/ranaroussi/yfinance/issues/919
+    
+    Using period='max' with interval='1m' will fetch the maximum available
+    minute-level data (7 days) from yfinance.
     """
     try:
         print(f"\n{datetime.now()} - Fetching data...")
@@ -44,11 +54,11 @@ def get_btc_minute_data():
         if latest_ts:
             print(f"Latest timestamp in database: {latest_ts}")
         
-        # Download data using yf.download with 1d period and 1m interval
+        # Download data using yf.download with max period and 1m interval
         df = yf.download(
             tickers="BTC-USD",
             interval="1m",
-            period="1d"  # Changed from 60m to 1d
+            period="max"  # Changed to max to get all available minute data (7 days)
         )
         
         if df.empty:
