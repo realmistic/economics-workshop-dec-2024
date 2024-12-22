@@ -32,7 +32,22 @@ def get_latest_timestamp():
         print(f"Error getting latest timestamp: {e}")
         return None
 
-def get_btc_minute_data():
+def reset_btc_table():
+    """Drop and recreate the btc_minute table"""
+    try:
+        with engine.connect() as conn:
+            conn.execute(text("DROP TABLE IF EXISTS btc_minute"))
+            conn.commit()
+            print("Dropped existing btc_minute table")
+            
+        setup_database()
+        print("Created new btc_minute table")
+        return True
+    except Exception as e:
+        print(f"Error resetting table: {e}")
+        return False
+
+def get_btc_minute_data(reset=False):
     """
     Fetch minute-level data for BTC-USD and save it to SQLite database.
     
@@ -43,14 +58,18 @@ def get_btc_minute_data():
     - 1d: max
     Source: https://github.com/ranaroussi/yfinance/issues/919
     
-    Using period='max' with interval='1m' will fetch the maximum available
-    minute-level data (7 days) from yfinance.
+    Args:
+        reset (bool): If True, drop and recreate the table before fetching data
     """
     try:
         print(f"\n{datetime.now()} - Fetching data...")
         
-        # Get the latest timestamp from the database
-        latest_ts = get_latest_timestamp()
+        if reset:
+            if not reset_btc_table():
+                return None
+        
+        # Get the latest timestamp from the database if not resetting
+        latest_ts = None if reset else get_latest_timestamp()
         if latest_ts:
             print(f"Latest timestamp in database: {latest_ts}")
         
@@ -58,7 +77,7 @@ def get_btc_minute_data():
         df = yf.download(
             tickers="BTC-USD",
             interval="1m",
-            period="max"  # Changed to max to get all available minute data (7 days)
+            period="max"  # Get maximum available minute data (7 days)
         )
         
         if df.empty:
@@ -67,8 +86,8 @@ def get_btc_minute_data():
         
         print(f"\nReceived data shape: {df.shape}")
         
-        # Filter for only new data if we have existing data
-        if latest_ts:
+        # Filter for only new data if we have existing data and not resetting
+        if latest_ts and not reset:
             # Make sure both timestamps are UTC aware for comparison
             df = df[df.index.tz_localize(None).tz_localize('UTC') > latest_ts]
             if df.empty:
@@ -181,6 +200,11 @@ def main():
         metavar='SECONDS',
         help='Interval in seconds between fetches in continuous mode (default: 60)'
     )
+    parser.add_argument(
+        '--reset',
+        action='store_true',
+        help='Drop and recreate the table before fetching data'
+    )
     
     args = parser.parse_args()
     
@@ -191,7 +215,7 @@ def main():
     if args.mode == 'continuous':
         continuous_fetch(args.interval)
     else:
-        get_btc_minute_data()
+        get_btc_minute_data(reset=args.reset)
 
 if __name__ == "__main__":
     main()
