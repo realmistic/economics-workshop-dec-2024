@@ -1,5 +1,5 @@
 # Economic Data Dashboard
-**🚀 Try the live dashboard: [Economics Dashboard on Streamlit Cloud](https://economics-workshop-dec-2024.streamlit.app/)**
+**🚀 Try the live dashboard: [Economics Dashboard on Streamlit Cloud](https://economics-workshop-dec-2024.streamlit.app/)** - [Watch Workshop Recording](https://www.youtube.com/watch?v=MeDUe75WQaQ&list=PLSWnIAnueyu8KBcwhE48ASp20nZMg2qtt)
 
 <p align="center">
   <img src="static/images/dashboard_preview.png" alt="Economic Data Dashboard Preview" width="900"/>
