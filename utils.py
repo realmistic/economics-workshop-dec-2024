@@ -2,7 +2,7 @@ import sqlite3
 import pandas as pd
 import streamlit as st
 import plotly.graph_objects as go
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 
 def get_database_connection():
@@ -31,17 +31,37 @@ def load_data(query):
         raise e
 
 def load_btc_data():
+    """
+    Load BTC/USD minute data for the past 7 days (maximum available from yfinance).
+    Data is sampled to reduce points for better visualization while maintaining
+    price movement patterns.
+    """
     try:
         conn = get_database_connection()
-        query = """
+        # Get data from the last 7 days
+        seven_days_ago = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d %H:%M:%S')
+        query = f"""
         SELECT Datetime, Open, High, Low, Close, Volume
         FROM btc_minute
+        WHERE Datetime >= '{seven_days_ago}'
         ORDER BY Datetime DESC
-        LIMIT 300
         """
         df = pd.read_sql_query(query, conn)
         conn.close()
+        
+        if df.empty:
+            st.error("No BTC data available")
+            raise ValueError("No BTC data available")
+            
         df['Datetime'] = pd.to_datetime(df['Datetime'])
+        
+        # If we have more than 1000 points, sample the data to reduce points
+        # while maintaining the overall price movement pattern
+        if len(df) > 1000:
+            # Keep every Nth row to reduce to ~1000 points
+            n = len(df) // 1000
+            df = df.iloc[::n].copy()
+        
         return df
     except Exception as e:
         st.error(f"Error loading BTC data: {str(e)}")
