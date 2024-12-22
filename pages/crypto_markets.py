@@ -35,7 +35,7 @@ def show():
             # Add explanatory text
             st.markdown("""
             * **Alternative Asset Class**: Cryptocurrencies represent a distinct asset class that historically has shown lower correlation with traditional investments like stocks and bonds, potentially offering portfolio diversification benefits.
-            * **Real-Time Data Pipeline**: This dashboard displays minute-level BTC/USD data that updates with a 2-3 minute lag, demonstrating an automated data pipeline for near real-time market monitoring.
+            * **Real-Time Data Pipeline**: This dashboard displays up to 7 days of minute-level BTC/USD data (maximum available from yfinance) that updates with a 2-3 minute lag, providing both real-time price monitoring and short-term historical context.
             """)
 
             # Volume chart
