@@ -1,11 +1,16 @@
 # Economic Data Dashboard
-**🚀 Try the live dashboard: [Economics Dashboard on Streamlit Cloud](https://economics-workshop-dec-2024.streamlit.app/)** - [Watch Workshop Recording](https://www.youtube.com/watch?v=MeDUe75WQaQ&list=PLSWnIAnueyu8KBcwhE48ASp20nZMg2qtt)
+**🚀 Try the live dashboard: [Economics Dashboard on Streamlit Cloud](https://economics-workshop-dec-2024.streamlit.app/)**
 
 <p align="center">
   <img src="static/images/dashboard_preview.png" alt="Economic Data Dashboard Preview" width="900"/>
   <br>
   <em>Economic Indicators Dashboard showing unemployment rate trends and analysis</em>
 </p>
+
+**📺  Watch Workshop Recording [On YouTube](https://www.youtube.com/watch?v=MeDUe75WQaQ&list=PLSWnIAnueyu8KBcwhE48ASp20nZMg2qtt)**
+
+[![YouTube video](https://markdown-videos-api.jorgenkh.no/youtube/MeDUe75WQaQ)](https://www.youtube.com/watch?v=MeDUe75WQaQ&list=PLSWnIAnueyu8KBcwhE48ASp20nZMg2qtt)
+
 
 A comprehensive economic data dashboard that combines data from multiple sources (Yahoo Finance, FRED) into a Streamlit application with automated data collection and visualization.
 
