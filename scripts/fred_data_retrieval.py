@@ -3,6 +3,7 @@ import time
 import pandas as pd
 from pandas_datareader import data as pdr
 from sqlalchemy import create_engine
+from sqlalchemy.types import DateTime, Float
 from tqdm import tqdm
 
 # Directory to save data
@@ -124,17 +125,41 @@ def fetch_macro(min_date=None):
 
         # S&P 500
         elif metric_code == "SP500":
-            sp500 = pdr.DataReader(metric_code, "fred", start=min_date)
-            # Resample to business days and forward fill missing values
-            sp500 = sp500.resample('B').ffill()
-            # Calculate rolling averages and returns for S&P 500
-            sp500['sp500_ma20'] = sp500.SP500.rolling(window=20, min_periods=20).mean()
-            sp500['sp500_ma50'] = sp500.SP500.rolling(window=50, min_periods=50).mean()
-            sp500['sp500_ma200'] = sp500.SP500.rolling(window=200, min_periods=200).mean()
-            sp500['sp500_returns_daily'] = sp500.SP500.pct_change()
-            sp500['sp500_returns_monthly'] = sp500.SP500 / sp500.SP500.shift(20) - 1
-            sp500['sp500_returns_yearly'] = sp500.SP500 / sp500.SP500.shift(252) - 1
-            data['sp500'] = sp500
+            try:
+                # Get raw data from FRED
+                sp500_raw = pdr.DataReader(metric_code, "fred", start=min_date)
+                
+                # Create DataFrame with SP500 values and forward fill any gaps
+                sp500 = pd.DataFrame()
+                sp500['SP500'] = sp500_raw[metric_code].fillna(method='ffill')
+                
+                # Calculate SMAs using standard rolling window with center=False to use prior values
+                sp500['sp500_ma20'] = sp500['SP500'].rolling(window=20, center=False).mean()
+                sp500['sp500_ma50'] = sp500['SP500'].rolling(window=50, center=False).mean()
+                sp500['sp500_ma200'] = sp500['SP500'].rolling(window=200, center=False).mean()
+                
+                # Print last 10 rows to verify SMA calculations
+                print("\nSP500 Moving Averages (last 10 rows):")
+                pd.set_option('display.float_format', lambda x: '%.2f' % x)
+                print(sp500.tail(10))
+                
+                # Check for NaN values in last 200 rows (should be none)
+                nan_count = sp500.tail(200).isna().sum()
+                if nan_count.any():
+                    print("\nWarning: Found NaN values in last 200 rows:")
+                    print(nan_count)
+                
+                # Verify calculations are numeric
+                if sp500.select_dtypes(include=['float64', 'int64']).shape[1] != 4:
+                    print("Warning: Non-numeric values detected in SP500 data")
+                    sp500 = sp500.astype('float64')
+                
+                # Store in data dictionary
+                data['sp500'] = sp500[['SP500', 'sp500_ma20', 'sp500_ma50', 'sp500_ma200']]
+            except Exception as e:
+                print(f"Error processing SP500 data: {str(e)}")
+                # Continue with other metrics
+                continue
 
         # Personal Saving Rate
         elif metric_code == "PSAVERT":
@@ -156,9 +181,32 @@ def fetch_macro(min_date=None):
     # Save to parquet and SQLite
     print("\nSaving data to files...")
     for name, df in tqdm(data.items(), desc="Saving data"):
-        # Save to SQLite with index preserved and named as 'date'
-        df.index.name = 'date'  # Explicitly name the index
-        df.to_sql(name, engine, if_exists='replace')
+        # Set index name for all DataFrames
+        df.index.name = 'date'
+        
+        if name == 'sp500':
+            print("\nSaving SP500 data with columns:", df.columns.tolist())
+            print("Sample of data being saved:")
+            print(df.head())
+            
+            # Save to database with SQLite-compatible dtype specifications
+            # Use SQLAlchemy type instances for SP500 table
+            dtype_dict = {
+                'date': DateTime,
+                'SP500': Float,
+                'sp500_ma20': Float,
+                'sp500_ma50': Float,
+                'sp500_ma200': Float
+            }
+            df.to_sql(name, engine, if_exists='replace', index=True,
+                     dtype=dtype_dict)
+        else:
+            # Convert all numeric columns to Float type and date index to DateTime
+            dtype_dict = {col: Float for col in df.columns}
+            dtype_dict['date'] = DateTime
+            
+            df.to_sql(name, engine, if_exists='replace', index=True,
+                     dtype=dtype_dict)
 
 def main():
     fetch_macro()
