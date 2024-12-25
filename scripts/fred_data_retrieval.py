@@ -125,10 +125,12 @@ def fetch_macro(min_date=None):
         # S&P 500
         elif metric_code == "SP500":
             sp500 = pdr.DataReader(metric_code, "fred", start=min_date)
+            # Resample to business days and forward fill missing values
+            sp500 = sp500.resample('B').ffill()
             # Calculate rolling averages and returns for S&P 500
-            sp500['sp500_ma20'] = sp500.SP500.rolling(window=20).mean()
-            sp500['sp500_ma50'] = sp500.SP500.rolling(window=50).mean()
-            sp500['sp500_ma200'] = sp500.SP500.rolling(window=200).mean()
+            sp500['sp500_ma20'] = sp500.SP500.rolling(window=20, min_periods=20).mean()
+            sp500['sp500_ma50'] = sp500.SP500.rolling(window=50, min_periods=50).mean()
+            sp500['sp500_ma200'] = sp500.SP500.rolling(window=200, min_periods=200).mean()
             sp500['sp500_returns_daily'] = sp500.SP500.pct_change()
             sp500['sp500_returns_monthly'] = sp500.SP500 / sp500.SP500.shift(20) - 1
             sp500['sp500_returns_yearly'] = sp500.SP500 / sp500.SP500.shift(252) - 1
