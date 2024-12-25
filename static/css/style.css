@@ -1,8 +1,3 @@
-/* Main page background */
-.stApp {
-    background-color: #0e1117;
-}
-
 /* Hide default Streamlit header */
 header[data-testid="stHeader"] {
     display: none;
@@ -13,14 +8,8 @@ div.st-emotion-cache-79elbk.eczjsme10 {
     display: none !important;
 }
 
-/* Sidebar styling */
-section[data-testid="stSidebar"] {
-    background-color: #1a1c24;
-}
-
 /* Sidebar title */
 .sidebar-title {
-    color: #00FFF0;
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 2rem;
@@ -28,8 +17,6 @@ section[data-testid="stSidebar"] {
 
 /* Navigation buttons */
 section[data-testid="stSidebar"] div.stButton > button {
-    background-color: #00FFF0 !important;
-    color: #0e1117 !important;
     font-size: 14px !important;
     font-weight: 600 !important;
     padding: 4px 12px !important;
@@ -40,56 +27,23 @@ section[data-testid="stSidebar"] div.stButton > button {
     width: 100% !important;
     display: block !important;
     text-align: center !important;
+    transition: all 0.3s ease !important;
+    background-color: #40A0A0 !important;
+    color: white !important;
 }
 
 section[data-testid="stSidebar"] div.stButton > button:hover {
-    background-color: #00FFF0 !important;
-    color: #0e1117 !important;
+    background-color: #358585 !important;
     border: none !important;
 }
 
 section[data-testid="stSidebar"] div.stButton > button:active {
-    background-color: #00FFF0 !important;
-    color: #0e1117 !important;
     border: none !important;
 }
 
 section[data-testid="stSidebar"] div.stButton > button:focus {
-    background-color: #00FFF0 !important;
-    color: #0e1117 !important;
     border: none !important;
     box-shadow: none !important;
-}
-
-/* Headers */
-h1, h2, h3 {
-    color: #00FFF0 !important;
-}
-
-/* Markdown text */
-.element-container div.stMarkdown {
-    color: #ffffff !important;
-}
-
-.element-container div.stMarkdown p {
-    color: #ffffff !important;
-}
-
-.element-container div.stMarkdown li {
-    color: #ffffff !important;
-}
-        
-/* Plotly hover style override */
-.js-plotly-plot .plotly .modebar {
-    background: rgba(26,28,36,0.8) !important;
-}
-
-.js-plotly-plot .plotly .modebar-btn path {
-    fill: #00FFF0 !important;
-}
-
-.js-plotly-plot .plotly .modebar-btn:hover path {
-    fill: #ffffff !important;
 }
 
 /* Logo link styling */
@@ -98,13 +52,21 @@ h1, h2, h3 {
     top: 20px;
     left: 20px;
     z-index: 999;
-    color: #00FFF0;
     text-decoration: none;
     font-size: 20px;
     font-weight: bold;
     transition: color 0.3s ease;
 }
 
-.logo-link:hover {
-    color: #ffffff;
+/* Latest data styling */
+span[style*="background-color: rgb(49, 51, 63)"] {
+    background-color: #40A0A0 !important;
+    color: white !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+}
+
+/* Theme transition */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease !important;
 }
