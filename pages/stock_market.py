@@ -21,7 +21,7 @@ def show():
             latest_ma200 = sp500['sp500_ma200'].iloc[-1]
             latest_date = sp500.index[-1]
             
-            caption = f'<span style="background-color: #31333F; padding: 2px 6px; border-radius: 3px;"><b>Latest data: {latest_date.strftime("%B %Y")}</b></span>'
+            caption = f'<span style="background-color: #31333F; padding: 2px 6px; border-radius: 3px;"><b>Latest data: {latest_date.strftime("%B %d, %Y")}</b></span>'
             if pd.notna(latest_sp500):
                 caption += f' | S&P 500: {latest_sp500:,.0f}'
             if pd.notna(latest_ma200):
@@ -59,6 +59,44 @@ def show():
             ))
             fig_sp500.update_layout(get_chart_layout(''))
             st.plotly_chart(fig_sp500, use_container_width=True)
+            
+            # Calculate monthly YoY growth
+            monthly_sp500 = sp500.resample('M')['SP500'].last()
+            monthly_yoy_growth = ((monthly_sp500 - monthly_sp500.shift(12)) / monthly_sp500.shift(12)) * 100
+            
+            # Calculate average YoY growth and get date range
+            avg_yoy_growth = monthly_yoy_growth.mean()
+            start_date = monthly_yoy_growth.index[0]
+            end_date = monthly_yoy_growth.index[-1]
+            
+            st.subheader('S&P 500 Year-over-Year Monthly Growth')
+            caption = f'<span style="background-color: #31333F; padding: 2px 6px; border-radius: 3px;"><b>Average YoY Growth ({start_date.strftime("%B %Y")} - {end_date.strftime("%B %Y")}): {avg_yoy_growth:.1f}%</b></span>'
+            st.caption(caption, unsafe_allow_html=True)
+            
+            # Create YoY growth bar chart
+            fig_growth = go.Figure()
+            fig_growth.add_trace(go.Bar(
+                x=monthly_yoy_growth.index,
+                y=monthly_yoy_growth,
+                name='YoY Growth',
+                marker_color=monthly_yoy_growth.apply(lambda x: '#00FF00' if x >= 0 else '#FF0000'),
+                hovertemplate='Date: %{x}<br>YoY Growth: %{y:.1f}%<extra></extra>'
+            ))
+            
+            # Add average line
+            fig_growth.add_trace(go.Scatter(
+                x=[monthly_yoy_growth.index[0], monthly_yoy_growth.index[-1]],
+                y=[avg_yoy_growth, avg_yoy_growth],
+                name='Average',
+                line=dict(color='#666666', width=1, dash='dash'),
+                hovertemplate=f'Average: {avg_yoy_growth:.1f}%<extra></extra>'
+            ))
+            
+            growth_layout = get_chart_layout('')
+            growth_layout.update(height=300, showlegend=True)  # Taller height and show legend for average line
+            fig_growth.update_layout(growth_layout)
+            
+            st.plotly_chart(fig_growth, use_container_width=True)
             
             # Add S&P 500 commentary
             st.markdown("""
