@@ -73,7 +73,7 @@ def show():
             latest_5y = yields_5y['DGS5'].iloc[-1] if not yields_5y.empty else None
             latest_10y = yields_10y['DGS10'].iloc[-1]
             
-            caption = f'<span style="background-color: #31333F; padding: 2px 6px; border-radius: 3px;"><b>Latest data: {latest_date.strftime("%B %Y")}</b></span>'
+            caption = f'<span style="background-color: #31333F; padding: 2px 6px; border-radius: 3px;"><b>Latest data: {latest_date.strftime("%B %d, %Y")}</b></span>'
             if pd.notna(latest_1y):
                 caption += f' | 1Y: {latest_1y:.1%}'
             if pd.notna(latest_5y):
