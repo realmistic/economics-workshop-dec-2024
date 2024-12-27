@@ -112,15 +112,22 @@ def show():
 
         # VIX
         vix_query = """
+        WITH MovingAverages AS (
+            SELECT 
+                date,
+                VIXCLS,
+                AVG(VIXCLS) OVER (ORDER BY date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) as vix_ma20,
+                AVG(VIXCLS) OVER (ORDER BY date ROWS BETWEEN 49 PRECEDING AND CURRENT ROW) as vix_ma50
+            FROM vixcls
+            WHERE VIXCLS IS NOT NULL
+        )
         SELECT *
-        FROM vixcls
+        FROM MovingAverages
         ORDER BY date
         """
         vix = load_data(vix_query)
         
         if not vix.empty and vix['VIXCLS'].notna().any():
-            vix['vix_ma20'] = vix['VIXCLS'].rolling(window=20).mean()
-            vix['vix_ma50'] = vix['VIXCLS'].rolling(window=50).mean()
             
             st.markdown('<div id="vix"></div>', unsafe_allow_html=True)
             st.subheader('VIX Volatility Index')
@@ -128,7 +135,7 @@ def show():
             latest_vix_ma20 = vix['vix_ma20'].iloc[-1]
             latest_date = vix.index[-1]
             
-            caption = f'<span style="background-color: #31333F; padding: 2px 6px; border-radius: 3px;"><b>Latest data: {latest_date.strftime("%B %Y")}</b></span>'
+            caption = f'<span style="background-color: #31333F; padding: 2px 6px; border-radius: 3px;"><b>Latest data: {latest_date.strftime("%B %d, %Y")}</b></span>'
             if pd.notna(latest_vix):
                 caption += f' | VIX: {latest_vix:.1f}'
             if pd.notna(latest_vix_ma20):
