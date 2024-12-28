@@ -1,5 +1,6 @@
 import streamlit as st
 import plotly.graph_objects as go
+import numpy as np
 from utils import load_data, get_chart_layout
 
 def show():
@@ -29,14 +30,16 @@ def show():
             y=gdp_real['gdpc1_us_yoy'],
             name='Real GDP Growth',
             line=dict(color='#FFBA08', width=2),
-            hovertemplate='Quarter: Q' + str((gdp_real.index[-1].month-1)//3 + 1) + '\'%{x|%y}<br>Real GDP Growth: %{y:.1%}<extra></extra>'
+            customdata=[f"Q{((d.month-1)//3 + 1)}'{d.strftime('%y')}" for d in gdp_real.index],
+            hovertemplate='%{customdata}<br>Real GDP Growth: %{y:.1%}<extra></extra>'
         ))
         fig_gdp.add_trace(go.Scatter(
             x=gdp_potential.index, 
             y=gdp_potential['gdppot_us_yoy'],
             name='Potential GDP Growth',
             line=dict(color='#00FFF0', width=2),
-            hovertemplate='Quarter: Q' + str((gdp_potential.index[-1].month-1)//3 + 1) + '\'%{x|%y}<br>Potential GDP Growth: %{y:.1%}<extra></extra>'
+            customdata=[f"Q{((d.month-1)//3 + 1)}'{d.strftime('%y')}" for d in gdp_potential.index],
+            hovertemplate='%{customdata}<br>Potential GDP Growth: %{y:.1%}<extra></extra>'
         ))
         layout = get_chart_layout('')  # Empty title since we're using st.subheader
         layout.update(yaxis=dict(tickformat='.1%'))
