@@ -20,8 +20,8 @@ def show():
         gdp_real = load_data(gdp_real_query)
         gdp_potential = load_data(gdp_potential_query)
         
-        st.subheader('U.S. Real GDP vs Potential GDP Growth (Year-over-Year)')
-        st.caption(f'<span style="background-color: #31333F; padding: 2px 6px; border-radius: 3px;"><b>Latest data: {gdp_real.index[-1].strftime("%B %Y")}</b></span> | Real GDP: {gdp_real["gdpc1_us_yoy"].iloc[-1]:.1%} | Potential GDP: {gdp_potential["gdppot_us_yoy"].iloc[-1]:.1%}', unsafe_allow_html=True)
+        st.subheader('U.S. Real GDP vs Potential GDP Growth (Year-over-Year, Quarterly Data)')
+        st.caption(f'<span style="background-color: #31333F; padding: 2px 6px; border-radius: 3px;"><b>Latest data: Q{(gdp_real.index[-1].month-1)//3 + 1}\'{gdp_real.index[-1].strftime("%y")}</b></span> | Real GDP: {gdp_real["gdpc1_us_yoy"].iloc[-1]:.1%} | Potential GDP: {gdp_potential["gdppot_us_yoy"].iloc[-1]:.1%}', unsafe_allow_html=True)
         
         fig_gdp = go.Figure()
         fig_gdp.add_trace(go.Scatter(
@@ -29,14 +29,14 @@ def show():
             y=gdp_real['gdpc1_us_yoy'],
             name='Real GDP Growth',
             line=dict(color='#FFBA08', width=2),
-            hovertemplate='Date: %{x}<br>Real GDP Growth: %{y:.1%}<extra></extra>'
+            hovertemplate='Quarter: Q' + str((gdp_real.index[-1].month-1)//3 + 1) + '\'%{x|%y}<br>Real GDP Growth: %{y:.1%}<extra></extra>'
         ))
         fig_gdp.add_trace(go.Scatter(
             x=gdp_potential.index, 
             y=gdp_potential['gdppot_us_yoy'],
             name='Potential GDP Growth',
             line=dict(color='#00FFF0', width=2),
-            hovertemplate='Date: %{x}<br>Potential GDP Growth: %{y:.1%}<extra></extra>'
+            hovertemplate='Quarter: Q' + str((gdp_potential.index[-1].month-1)//3 + 1) + '\'%{x|%y}<br>Potential GDP Growth: %{y:.1%}<extra></extra>'
         ))
         layout = get_chart_layout('')  # Empty title since we're using st.subheader
         layout.update(yaxis=dict(tickformat='.1%'))
