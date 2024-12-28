@@ -54,7 +54,8 @@ def fetch_macro(min_date=None):
             gdpc1 = pdr.DataReader(metric_code, "fred", start=min_date)
             gdpc1['gdpc1_us_yoy'] = gdpc1.GDPC1 / gdpc1.GDPC1.shift(4) - 1
             gdpc1['gdpc1_us_qoq'] = gdpc1.GDPC1 / gdpc1.GDPC1.shift(1) - 1
-            data['gdpc1'] = gdpc1[['gdpc1_us_yoy','gdpc1_us_qoq']]
+            gdpc1['gdpc1_us_abs'] = gdpc1.GDPC1  # Store absolute value
+            data['gdpc1'] = gdpc1[['gdpc1_us_yoy', 'gdpc1_us_qoq', 'gdpc1_us_abs']]
 
         # Real Potential Gross Domestic Product (GDPPOT), Billions of Chained 2012 Dollars, QUARTERLY
         elif metric_code == "GDPPOT":
