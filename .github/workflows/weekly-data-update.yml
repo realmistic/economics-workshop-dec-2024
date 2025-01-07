@@ -1,9 +1,9 @@
-name: Daily Economic Data Update
+name: Weekly Economic Data Update
 
 on:
   schedule:
-    # Run daily at 00:00 UTC
-    - cron: '0 0 * * *'
+    # Run weekly on Monday at 23:00 UTC (after NYSE market hours + 2 hours buffer)
+    - cron: '0 23 * * 1'
   # Allow manual trigger
   workflow_dispatch:
 
