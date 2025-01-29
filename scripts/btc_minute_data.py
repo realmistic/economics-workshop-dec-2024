@@ -100,7 +100,7 @@ def get_btc_minute_data(reset=False):
         
         # Create a new DataFrame while preserving the index
         new_df = df.copy()
-        new_df.columns = ['Open', 'High', 'Low', 'Close', 'Adj_Close', 'Volume']
+        new_df.columns = ['Open', 'High', 'Low', 'Close', 'Volume']
         new_df['fetch_timestamp'] = datetime.now()
         
         # Convert index to timezone-naive for SQLite storage
@@ -115,7 +115,7 @@ def get_btc_minute_data(reset=False):
             new_df.to_sql('btc_minute', engine, if_exists='append', index=True, index_label='Datetime')
             print(f"\nAdded {len(new_df)} new records to database")
             print("\nLatest data point:")
-            print(new_df.tail(1)[['Open', 'High', 'Low', 'Close', 'Volume', 'Adj_Close']])
+            print(new_df.tail(1)[['Open', 'High', 'Low', 'Close', 'Volume']])
             
             # Print total records in database
             with engine.connect() as conn:
@@ -167,7 +167,6 @@ def setup_database():
         Low REAL,
         Close REAL,
         Volume REAL,
-        Adj_Close REAL,
         fetch_timestamp TIMESTAMP
     )
     """)
